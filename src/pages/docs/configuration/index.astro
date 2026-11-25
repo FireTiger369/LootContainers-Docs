@@ -1,0 +1,1111 @@
+
+---
+import DocsLayout from "../../../layouts/DocsLayout.astro";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<DocsLayout
+  title="Configuration Reference"
+  description="A complete reference for Loot Containers configuration files, settings, defaults, and validation rules."
+>
+  <div class="doc-section">
+    <span class="eyebrow">CONFIGURATION</span>
+    <h1>Configuration Reference</h1>
+    <p class="lead">
+      Learn how Loot Containers stores its configuration, what each setting
+      controls, and how to customize loot tables, rarities, reward odds, and
+      container assignments.
+    </p>
+
+    <p>
+      Configuration files are stored in your Minecraft configuration
+      directory. Loot Containers creates its configuration folder and default
+      files automatically when they are missing.
+    </p>
+
+    <div class="info-card">
+      <strong>Configuration folder</strong>
+      <pre><code>config/lootcontainers/</code></pre>
+      <p>
+        On Windows, this folder is located inside your Minecraft instance
+        directory.
+      </p>
+    </div>
+  </div>
+
+  <div class="doc-section">
+    <h2>Configuration files</h2>
+    <p>
+      Loot Containers uses separate files for general settings, rarity
+      definitions, loot tables, and container assignments.
+    </p>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>File</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>settings.json</code></td>
+            <td>General settings and stored permission options.</td>
+          </tr>
+          <tr>
+            <td><code>rarities.json</code></td>
+            <td>Rarity names, IDs, colors, descriptions, and weights.</td>
+          </tr>
+          <tr>
+            <td><code>loot_tables/loot_tables.json</code></td>
+            <td>Loot table definitions, item pools, selection systems, and odds.</td>
+          </tr>
+          <tr>
+            <td><code>loot_tables/container_assignments.json</code></td>
+            <td>Rules connecting blocks and dimensions to loot tables.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      All configuration files use JSON and are saved with pretty formatting
+      to make manual editing easier.
+    </p>
+  </div>
+
+  <div class="doc-section">
+    <h2>General settings</h2>
+    <p>
+      General settings are stored in <code>settings.json</code>. These settings
+      contain default values for reward behavior, notifications, and
+      configuration permissions.
+    </p>
+
+    <h3>Default configuration</h3>
+    <pre><code>{`{
+  "defaultRewardChance": 0.25,
+  "enableRewardNotifications": true,
+  "requireOp": true,
+  "allowlistEnabled": false,
+  "allowOpBypass": true,
+  "allowedPlayers": []
+}`}</code></pre>
+
+    <h3>Setting reference</h3>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Setting</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>defaultRewardChance</code></td>
+            <td><code>0.25</code></td>
+            <td>
+              Reserved for a future default reward chance feature. Not
+              implemented yet.
+            </td>
+          </tr>
+          <tr>
+            <td><code>enableRewardNotifications</code></td>
+            <td><code>true</code></td>
+            <td>
+              Reserved for future reward notification controls. Not
+              implemented yet.
+            </td>
+          </tr>
+          <tr>
+            <td><code>requireOp</code></td>
+            <td><code>true</code></td>
+            <td>
+              Stored permission option. Not currently used by server-side
+              authorization.
+            </td>
+          </tr>
+          <tr>
+            <td><code>allowlistEnabled</code></td>
+            <td><code>false</code></td>
+            <td>
+              Stored option for enabling an allowlist. Allowlist enforcement
+              is not implemented yet.
+            </td>
+          </tr>
+          <tr>
+            <td><code>allowOpBypass</code></td>
+            <td><code>true</code></td>
+            <td>
+              Stored permission option. Not currently used by server-side
+              authorization.
+            </td>
+          </tr>
+          <tr>
+            <td><code>allowedPlayers</code></td>
+            <td><code>[]</code></td>
+            <td>
+              Stores player entries for the allowlist interface. Entries
+              are not currently enforced by server authorization.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info-card">
+      <strong>Implementation status</strong>
+      <p>
+        The general settings file is saved and loaded, but not every setting
+        currently affects gameplay. The reward chance and notification
+        settings are reserved for future functionality. The permission
+        options are stored by the configuration screen, but do not replace
+        the current server authorization checks.
+      </p>
+    </div>
+
+    <h3>Current server authorization</h3>
+    <p>
+      Server-side configuration synchronization and saving currently check
+      whether a player has permission level 2 or higher. The stored
+      permission options above do not change that check.
+    </p>
+  </div>
+
+  <div class="doc-section">
+    <h2>Rarity configuration</h2>
+    <p>
+      Rarity definitions are stored in
+      <code>loot_tables/../rarities.json</code>, which resolves to
+      <code>config/lootcontainers/rarities.json</code>.
+    </p>
+
+    <p>
+      Each rarity has an ID, display name, color, description, and selection
+      weight. Rarity weights determine how likely each rarity is to be
+      selected when a loot table uses the RARITY selection system.
+    </p>
+
+    <h3>Default rarities</h3>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Rarity</th>
+            <th>ID</th>
+            <th>Default color</th>
+            <th>Weight</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Common</td>
+            <td><code>common</code></td>
+            <td><code>#55FF55</code></td>
+            <td>60.0</td>
+          </tr>
+          <tr>
+            <td>Uncommon</td>
+            <td><code>uncommon</code></td>
+            <td><code>#AAFF55</code></td>
+            <td>25.0</td>
+          </tr>
+          <tr>
+            <td>Rare</td>
+            <td><code>rare</code></td>
+            <td><code>#55AAFF</code></td>
+            <td>10.0</td>
+          </tr>
+          <tr>
+            <td>Epic</td>
+            <td><code>epic</code></td>
+            <td><code>#AA55FF</code></td>
+            <td>4.0</td>
+          </tr>
+          <tr>
+            <td>Legendary</td>
+            <td><code>legendary</code></td>
+            <td><code>#FFAA00</code></td>
+            <td>1.0</td>
+          </tr>
+          <tr>
+            <td>Mythic</td>
+            <td><code>mythic</code></td>
+            <td><code>#35CFFF</code></td>
+            <td>0.1</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      The default rarity weights add up to 100.1. These are relative weights,
+      not guaranteed percentages.
+    </p>
+
+    <h3>Rarity properties</h3>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Default</th>
+            <th>Requirements</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>id</code></td>
+            <td><code>common</code></td>
+            <td>
+              Required. Lowercase letters, numbers, underscores, and hyphens.
+              Must be unique.
+            </td>
+          </tr>
+          <tr>
+            <td><code>displayName</code></td>
+            <td><code>Common</code></td>
+            <td>Required and cannot be blank.</td>
+          </tr>
+          <tr>
+            <td><code>color</code></td>
+            <td><code>#55FF55</code></td>
+            <td>Must be a six-digit hexadecimal color beginning with #.</td>
+          </tr>
+          <tr>
+            <td><code>description</code></td>
+            <td><code>""</code></td>
+            <td>Optional. Can be blank.</td>
+          </tr>
+          <tr>
+            <td><code>weight</code></td>
+            <td><code>60.0</code></td>
+            <td>Must be finite and greater than or equal to 0.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Rarity validation</h3>
+    <ul>
+      <li>At least one rarity must exist.</li>
+      <li>Rarity IDs must be unique, ignoring capitalization.</li>
+      <li>At least one rarity must have a positive weight.</li>
+      <li>Zero-weight rarities are valid but cannot be selected.</li>
+      <li>Negative, infinite, and NaN weights are invalid.</li>
+      <li>There is no configured upper limit for rarity weights.</li>
+    </ul>
+
+    <div class="info-card">
+      <strong>Missing rarity definitions</strong>
+      <p>
+        When a valid rarity configuration is loaded, missing built-in rarity
+        entries are added automatically. Existing entries are retained.
+      </p>
+    </div>
+  </div>
+
+  <div class="doc-section">
+    <h2>Loot table configuration</h2>
+    <p>
+      Loot tables are stored in
+      <code>config/lootcontainers/loot_tables/loot_tables.json</code>.
+      Each table defines its item pool, selection method, and reward chance
+      system.
+    </p>
+
+    <h3>Default loot table</h3>
+    <p>
+      The default table created by the mod is named
+      <code>overworld</code> and has the display name
+      <strong>Overworld Rewards</strong>.
+    </p>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Default value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>id</code></td>
+            <td><code>overworld</code></td>
+          </tr>
+          <tr>
+            <td><code>displayName</code></td>
+            <td><code>Overworld Rewards</code></td>
+          </tr>
+          <tr>
+            <td><code>description</code></td>
+            <td>Starter rewards for overworld containers.</td>
+          </tr>
+          <tr>
+            <td><code>chanceSystem</code></td>
+            <td><code>FIXED</code></td>
+          </tr>
+          <tr>
+            <td><code>selectionSystem</code></td>
+            <td><code>RARITY</code></td>
+          </tr>
+          <tr>
+            <td><code>rewardChance</code></td>
+            <td><code>0.25</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Loot table properties</h3>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Default</th>
+            <th>Requirements</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>id</code></td>
+            <td><code>default</code></td>
+            <td>
+              Required. Lowercase letters, numbers, underscores, and hyphens.
+              Must be unique.
+            </td>
+          </tr>
+          <tr>
+            <td><code>displayName</code></td>
+            <td><code>Default Loot Table</code></td>
+            <td>Required and cannot be blank.</td>
+          </tr>
+          <tr>
+            <td><code>description</code></td>
+            <td><code>""</code></td>
+            <td>Optional description.</td>
+          </tr>
+          <tr>
+            <td><code>chanceSystem</code></td>
+            <td><code>FIXED</code></td>
+            <td><code>FIXED</code> or <code>PROGRESSIVE</code>.</td>
+          </tr>
+          <tr>
+            <td><code>selectionSystem</code></td>
+            <td><code>RARITY</code></td>
+            <td><code>RARITY</code> or <code>INDIVIDUAL</code>.</td>
+          </tr>
+          <tr>
+            <td><code>rewardChance</code></td>
+            <td><code>0.25</code></td>
+            <td>Must be between 0 and 1, inclusive. Not implemented in runtime reward calculations yet.</td>
+          </tr>
+          <tr>
+            <td><code>items</code></td>
+            <td>Default item pool</td>
+            <td>Required. Must contain at least one valid item with a positive weight.</td>
+          </tr>
+          <tr>
+            <td><code>fixedOdds</code></td>
+            <td>Default fixed odds</td>
+            <td>Required and must pass fixed odds validation.</td>
+          </tr>
+          <tr>
+            <td><code>progressiveOdds</code></td>
+            <td>Default progressive odds</td>
+            <td>Required and must pass progressive odds validation.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info-card">
+      <strong>About rewardChance</strong>
+      <p>
+        Although <code>rewardChance</code> is present in the loot table
+        configuration and is validated, it is not currently used by the
+        reward generator. Actual reward rolls use the selected
+        <code>fixedOdds</code> or <code>progressiveOdds</code> settings.
+      </p>
+    </div>
+  </div>
+
+  <div class="doc-section">
+    <h2>Loot item properties</h2>
+    <p>
+      Each loot table contains an <code>items</code> list. Every entry
+      represents a possible reward.
+    </p>
+
+    <h3>Item properties</h3>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Default</th>
+            <th>Description and validation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>itemId</code></td>
+            <td><code>minecraft:diamond</code></td>
+            <td>
+              Minecraft item registry ID. Must use a valid namespace and
+              item path.
+            </td>
+          </tr>
+          <tr>
+            <td><code>rarityId</code></td>
+            <td><code>common</code></td>
+            <td>
+              Rarity assigned to this item. Must reference an existing
+              rarity when using RARITY selection.
+            </td>
+          </tr>
+          <tr>
+            <td><code>weight</code></td>
+            <td><code>1.0</code></td>
+            <td>
+              Item selection weight. Must be finite and greater than or
+              equal to 0.
+            </td>
+          </tr>
+          <tr>
+            <td><code>minCount</code></td>
+            <td><code>1</code></td>
+            <td>Minimum stack size. Must be at least 1.</td>
+          </tr>
+          <tr>
+            <td><code>maxCount</code></td>
+            <td><code>1</code></td>
+            <td>
+              Maximum stack size. Must be at least 1 and cannot be smaller
+              than <code>minCount</code>.
+            </td>
+          </tr>
+          <tr>
+            <td><code>displayName</code></td>
+            <td><code>""</code></td>
+            <td>
+              Optional display name field. Custom item naming is not
+              currently applied by the item builder.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Default item pool</h3>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Rarity</th>
+            <th>Weight</th>
+            <th>Count range</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>minecraft:diamond</code></td>
+            <td>Common</td>
+            <td>10.0</td>
+            <td>1–2</td>
+          </tr>
+          <tr>
+            <td><code>minecraft:emerald</code></td>
+            <td>Uncommon</td>
+            <td>7.0</td>
+            <td>1–3</td>
+          </tr>
+          <tr>
+            <td><code>minecraft:diamond_sword</code></td>
+            <td>Rare</td>
+            <td>4.0</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td><code>minecraft:netherite_ingot</code></td>
+            <td>Legendary</td>
+            <td>1.0</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td><code>minecraft:nether_star</code></td>
+            <td>Mythic</td>
+            <td>0.1</td>
+            <td>1</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Item validation</h3>
+    <ul>
+      <li>Item IDs must contain a valid namespace and resource path.</li>
+      <li>Item weights must be finite and cannot be negative.</li>
+      <li>At least one item must have a positive weight.</li>
+      <li>Minimum and maximum counts must both be at least 1.</li>
+      <li>Minimum count cannot exceed maximum count.</li>
+      <li>There is no configured maximum item weight or stack count.</li>
+      <li>Items with zero weight are not selected.</li>
+    </ul>
+
+    <div class="info-card">
+      <strong>Item names</strong>
+      <p>
+        The <code>displayName</code> field is accepted by the configuration
+        validator, but the current item builder does not apply it to the
+        resulting item stack.
+      </p>
+    </div>
+  </div>
+
+  <div class="doc-section">
+    <h2>Selection systems</h2>
+    <p>
+      Loot tables support two selection systems. The selected system determines
+      how the item pool is evaluated before the reward chance is rolled.
+    </p>
+
+    <h3>RARITY</h3>
+    <p>
+      The RARITY system uses two weighted selection stages:
+    </p>
+    <ol>
+      <li>Select a rarity using the configured rarity weights.</li>
+      <li>Select an item from that rarity using the item weights.</li>
+    </ol>
+    <p>
+      A rarity is only eligible when it has at least one matching item with
+      a finite positive item weight. Rarity weights and item weights serve
+      different purposes.
+    </p>
+
+    <h3>INDIVIDUAL</h3>
+    <p>
+      The INDIVIDUAL system places all eligible items into one shared pool.
+      It selects an item directly using that item's weight.
+    </p>
+    <p>
+      Rarity weights are ignored by this selection system. An item's
+      <code>rarityId</code> may be blank, but if it is provided, it must
+      reference an existing rarity.
+    </p>
+
+    <div class="info-card">
+      <strong>Choosing a selection system</strong>
+      <p>
+        Use RARITY when you want to control how often rarity tiers appear.
+        Use INDIVIDUAL when you want every item to compete directly in one
+        weighted pool.
+      </p>
+    </div>
+  </div>
+
+  <div class="doc-section">
+    <h2>Fixed odds</h2>
+    <p>
+      Fixed odds give every reward attempt the same chance. They are configured
+      inside the loot table's <code>fixedOdds</code> object.
+    </p>
+
+    <h3>Default values</h3>
+    <pre><code>{`{
+  "format": "RATIO",
+  "percentage": 1.0,
+  "numerator": 1,
+  "denominator": 100
+}`}</code></pre>
+
+    <h3>Properties</h3>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>format</code></td>
+            <td><code>RATIO</code></td>
+            <td>Chooses the fixed odds format.</td>
+          </tr>
+          <tr>
+            <td><code>percentage</code></td>
+            <td><code>1.0</code></td>
+            <td>Reward chance as a percentage when using PERCENTAGE.</td>
+          </tr>
+          <tr>
+            <td><code>numerator</code></td>
+            <td><code>1</code></td>
+            <td>Numerator of the reward chance ratio.</td>
+          </tr>
+          <tr>
+            <td><code>denominator</code></td>
+            <td><code>100</code></td>
+            <td>Denominator of the reward chance ratio.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Supported formats</h3>
+    <p><strong>RATIO</strong></p>
+    <p>
+      The reward chance is calculated by dividing the numerator by the
+      denominator.
+    </p>
+    <pre><code>{`{
+  "format": "RATIO",
+  "numerator": 1,
+  "denominator": 100
+}`}</code></pre>
+    <p>
+      This produces a 1% reward chance. The numerator and denominator must
+      both be positive, and the numerator cannot exceed the denominator.
+    </p>
+
+    <p><strong>PERCENTAGE</strong></p>
+    <p>
+      The percentage field directly specifies the reward chance.
+    </p>
+    <pre><code>{`{
+  "format": "PERCENTAGE",
+  "percentage": 5.0
+}`}</code></pre>
+    <p>
+      This produces a 5% reward chance. The percentage must be between 0
+      and 100, inclusive.
+    </p>
+
+    <p>
+      Only the fields belonging to the selected format affect the calculated
+      chance.
+    </p>
+  </div>
+
+  <div class="doc-section">
+    <h2>Progressive odds and pity</h2>
+    <p>
+      Progressive odds increase the reward chance after failed attempts.
+      This system is commonly called a pity system.
+    </p>
+
+    <h3>Default values</h3>
+    <pre><code>{`{
+  "startingChance": 1.0,
+  "increasePerFailure": 1.0,
+  "maximumChance": 100.0,
+  "failuresBeforeIncrease": 0,
+  "resetAfterReward": true
+}`}</code></pre>
+
+    <h3>Properties</h3>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Default</th>
+            <th>Description and validation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>startingChance</code></td>
+            <td><code>1.0</code></td>
+            <td>Initial reward chance as a percentage. Range: 0–100.</td>
+          </tr>
+          <tr>
+            <td><code>increasePerFailure</code></td>
+            <td><code>1.0</code></td>
+            <td>
+              Percentage points added for each eligible failure. Must be
+              finite and nonnegative.
+            </td>
+          </tr>
+          <tr>
+            <td><code>maximumChance</code></td>
+            <td><code>100.0</code></td>
+            <td>Maximum reward chance. Range: 0–100.</td>
+          </tr>
+          <tr>
+            <td><code>failuresBeforeIncrease</code></td>
+            <td><code>0</code></td>
+            <td>Number of failed attempts before increases begin. Must be nonnegative.</td>
+          </tr>
+          <tr>
+            <td><code>resetAfterReward</code></td>
+            <td><code>true</code></td>
+            <td>Whether the player's failure counter resets after a successful reward.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>How the chance increases</h3>
+    <p>
+      The chance begins at <code>startingChance</code>. After the configured
+      number of initial failures, each additional failure adds
+      <code>increasePerFailure</code> percentage points.
+    </p>
+
+    <pre><code>{`Chance = startingChance
+       + eligibleFailures * increasePerFailure
+
+Chance = minimum(maximumChance, Chance)`}</code></pre>
+
+    <p>
+      The final chance is capped by <code>maximumChance</code>. Negative
+      failure counts are treated as zero.
+    </p>
+
+    <h3>Example using default values</h3>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Failed attempts</th>
+            <th>Reward chance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>0</td><td>1%</td></tr>
+          <tr><td>1</td><td>2%</td></tr>
+          <tr><td>2</td><td>3%</td></tr>
+          <tr><td>5</td><td>6%</td></tr>
+          <tr><td>10</td><td>11%</td></tr>
+          <tr><td>50</td><td>51%</td></tr>
+          <tr><td>99</td><td>100%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Failure delay example</h3>
+    <p>
+      If <code>failuresBeforeIncrease</code> is set to
+      <code>3</code>, the initial chance remains unchanged for the first
+      four attempts. The chance begins increasing after those failures.
+    </p>
+
+    <h3>Pity tracking</h3>
+    <ul>
+      <li>Failure counters are tracked per player UUID and loot table ID.</li>
+      <li>Failed progressive reward rolls increase the counter.</li>
+      <li>Successful rolls do not increase the counter.</li>
+      <li>
+        When <code>resetAfterReward</code> is true, a successful reward
+        resets the counter for that player and table.
+      </li>
+      <li>
+        When it is false, the existing counter is retained after a reward.
+      </li>
+      <li>Fixed odds do not use progressive failure tracking.</li>
+    </ul>
+
+    <p>
+      Pity information is stored using Minecraft's SavedData system and
+      synchronized to the player when progressive odds are processed.
+    </p>
+  </div>
+
+  <div class="doc-section">
+    <h2>Container assignments</h2>
+    <p>
+      Container assignments connect blocks to loot tables. They are stored
+      in <code>config/lootcontainers/loot_tables/container_assignments.json</code>.
+    </p>
+
+    <h3>Default assignment</h3>
+    <pre><code>{`{
+  "id": "overworld_containers",
+  "displayName": "Overworld Containers",
+  "blockId": "",
+  "blockTag": "lootcontainers:loot_containers",
+  "lootTableId": "overworld",
+  "enabled": true,
+  "blockIds": [],
+  "dimensionId": ""
+}`}</code></pre>
+
+    <h3>Assignment properties</h3>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Default</th>
+            <th>Description and validation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>id</code></td>
+            <td><code>overworld_containers</code></td>
+            <td>Required unique identifier. Lowercase letters, numbers, underscores, and hyphens.</td>
+          </tr>
+          <tr>
+            <td><code>displayName</code></td>
+            <td><code>Overworld Containers</code></td>
+            <td>Display name for the assignment.</td>
+          </tr>
+          <tr>
+            <td><code>blockId</code></td>
+            <td><code>""</code></td>
+            <td>Optional single block registry ID.</td>
+          </tr>
+          <tr>
+            <td><code>blockTag</code></td>
+            <td><code>lootcontainers:loot_containers</code></td>
+            <td>Optional block tag used to match multiple blocks.</td>
+          </tr>
+          <tr>
+            <td><code>blockIds</code></td>
+            <td><code>[]</code></td>
+            <td>Optional list of individual block registry IDs.</td>
+          </tr>
+          <tr>
+            <td><code>lootTableId</code></td>
+            <td><code>overworld</code></td>
+            <td>Required ID of an existing loot table.</td>
+          </tr>
+          <tr>
+            <td><code>enabled</code></td>
+            <td><code>true</code></td>
+            <td>Whether the assignment is considered during matching.</td>
+          </tr>
+          <tr>
+            <td><code>dimensionId</code></td>
+            <td><code>""</code></td>
+            <td>Optional dimension registry ID. Blank means no dimension restriction.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Block matching methods</h3>
+    <p>
+      Each assignment must use exactly one block matching method:
+    </p>
+    <ul>
+      <li><code>blockId</code> — matches one specific block.</li>
+      <li><code>blockIds</code> — matches one of several specific blocks.</li>
+      <li><code>blockTag</code> — matches blocks belonging to a tag.</li>
+    </ul>
+
+    <h3>Dimension matching</h3>
+    <p>
+      A nonempty <code>dimensionId</code> restricts an assignment to that
+      dimension. For example, <code>minecraft:overworld</code> matches the
+      Overworld dimension.
+    </p>
+
+    <h3>Assignment priority</h3>
+    <p>
+      Assignments are checked in list order. The first enabled assignment
+      that matches both the dimension and block is used. If multiple
+      assignments match, earlier entries take priority.
+    </p>
+
+    <h3>Validation rules</h3>
+    <ul>
+      <li>Assignment IDs must be unique, ignoring capitalization.</li>
+      <li>Block IDs and block tags must be valid resource locations.</li>
+      <li>Block ID lists cannot contain duplicate entries.</li>
+      <li>Exactly one block matching method must be configured.</li>
+      <li>The referenced loot table must exist.</li>
+      <li>A nonempty dimension ID must be a valid resource location.</li>
+    </ul>
+  </div>
+
+  <div class="doc-section">
+    <h2>How reward attempts work</h2>
+    <p>
+      When a player interacts with an assigned container, the server
+      processes the reward attempt.
+    </p>
+
+    <ol>
+      <li>The server finds the matching container assignment.</li>
+      <li>The container's identity is retrieved or created.</li>
+      <li>The server checks whether that player already has a reward result for that container.</li>
+      <li>An item is selected using the loot table's selection system.</li>
+      <li>The selected item stack is built using its configured count range.</li>
+      <li>The configured fixed or progressive reward chance is rolled.</li>
+      <li>If successful, the reward is delivered and the result is recorded.</li>
+      <li>If unsuccessful, the failed attempt is recorded for progressive pity when applicable.</li>
+    </ol>
+
+    <div class="info-card">
+      <strong>One attempt per player and container</strong>
+      <p>
+        Container reward results are tracked using container identities and
+        player UUIDs. A recorded result prevents that player from rerolling
+        the same container.
+      </p>
+    </div>
+
+    <p>
+      The selected item is built before the reward chance is rolled. If the
+      chance fails, that item is discarded and no reward is delivered.
+    </p>
+  </div>
+
+  <div class="doc-section">
+    <h2>Configuration validation and saving</h2>
+    <p>
+      Loot Containers validates important configuration data before accepting
+      changes.
+    </p>
+
+    <ul>
+      <li>Rarity definitions are checked for valid IDs, colors, and weights.</li>
+      <li>Loot tables are checked for valid odds, selection systems, and item entries.</li>
+      <li>Container assignments are checked for valid matching rules and loot table references.</li>
+      <li>Configuration changes submitted through the screen are validated on the server.</li>
+    </ul>
+
+    <p>
+      Loot table changes are validated before they are saved. The manager
+      also restores the previous in-memory configuration if saving fails.
+      The server configuration save process keeps backups and attempts to
+      roll back files if a save operation fails.
+    </p>
+
+    <h3>Editing JSON manually</h3>
+    <p>
+      If you edit configuration files while the game is running, the current
+      in-memory configuration may not immediately reflect those changes.
+      Use the configuration screen or reload the relevant configuration
+      through the appropriate mod workflow.
+    </p>
+  </div>
+
+  <div class="doc-section">
+    <h2>Recommended configuration practices</h2>
+    <ul>
+      <li>Make a backup before manually editing configuration files.</li>
+      <li>Keep rarity IDs consistent with the IDs referenced by loot items.</li>
+      <li>Use positive weights for items and rarities you want to be selectable.</li>
+      <li>Use the RARITY system when rarity-level balancing matters.</li>
+      <li>Use the INDIVIDUAL system when all items should compete in one pool.</li>
+      <li>Test reward odds with a small loot table before applying major changes.</li>
+      <li>Check assignment order when multiple rules can match the same block.</li>
+    </ul>
+  </div>
+
+  <div class="doc-section">
+    <h2>Related documentation</h2>
+    <div class="link-grid">
+      <a href={`${base}docs/loot-tables/`}>
+        <strong>Loot Tables</strong>
+        <span>Learn how loot tables and item pools work.</span>
+      </a>
+      <a href={`${base}docs/rarities/`}>
+        <strong>Rarity System</strong>
+        <span>Understand rarity tiers, colors, and weights.</span>
+      </a>
+      <a href={`${base}docs/odds-pity/`}>
+        <strong>Odds &amp; Pity</strong>
+        <span>Learn how fixed and progressive reward chances work.</span>
+      </a>
+      <a href={`${base}docs/container-assignments/`}>
+        <strong>Container Assignments</strong>
+        <span>Connect containers to loot tables.</span>
+      </a>
+      <a href={`${base}docs/permissions/`}>
+        <strong>Permissions</strong>
+        <span>Learn about configuration access and permission settings.</span>
+      </a>
+    </div>
+  </div>
+</DocsLayout>
+
+
+<style>
+  .link-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 22px;
+  }
+
+  .link-grid a {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 7px;
+    min-height: 105px;
+    padding: 20px 48px 20px 20px;
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 15px;
+    background: linear-gradient(
+      135deg,
+      rgba(255,255,255,.065),
+      rgba(255,255,255,.025)
+    );
+    text-decoration: none;
+    transition: .2s ease;
+  }
+
+  .link-grid a::after {
+    content: "↗";
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    color: #c5a8ff;
+    font-size: 17px;
+    transition: transform .2s ease;
+  }
+
+  .link-grid a:hover {
+    transform: translateY(-3px);
+    border-color: rgba(190,170,255,.35);
+    background: linear-gradient(
+      135deg,
+      rgba(139,220,255,.09),
+      rgba(243,166,232,.08)
+    );
+  }
+
+  .link-grid a:hover::after {
+    transform: translate(2px, -2px);
+  }
+
+  .link-grid a strong {
+    color: #eee8ff;
+    font-size: 14px;
+    font-weight: 650;
+  }
+
+  .link-grid a span {
+    color: #aaa5bb;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .link-grid a:focus-visible {
+    outline: 2px solid #c5a8ff;
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 650px) {
+    .link-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

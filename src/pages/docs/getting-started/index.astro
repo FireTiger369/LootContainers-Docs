@@ -1,0 +1,155 @@
+
+---
+import DocsLayout from "../../../layouts/DocsLayout.astro";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<DocsLayout
+	title="Introduction"
+	description="Welcome to the official Loot Containers documentation."
+>
+	<section class="welcome">
+		<div class="welcome-badge">WELCOME TO LOOT CONTAINERS</div>
+		<h2>Welcome to your next loot experience.</h2>
+		<p>
+			Loot Containers gives you control over how players discover and
+			receive rewards in your Minecraft world. Customize loot tables,
+			rarity tiers, reward chances, and container assignments.
+		</p>
+	</section>
+
+	<h2>What can you do?</h2>
+
+	<div class="feature-grid">
+		<div class="feature-card">
+			<div class="feature-icon">🎁</div>
+			<h3>Custom Loot Tables</h3>
+			<p>Choose which items containers can reward and customize their quantities and weights.</p>
+		</div>
+
+		<div class="feature-card">
+			<div class="feature-icon">💎</div>
+			<h3>Rarity System</h3>
+			<p>Organize rewards into six rarity tiers, from Common all the way to Mythic.</p>
+		</div>
+
+		<div class="feature-card">
+			<div class="feature-icon">🎲</div>
+			<h3>Odds & Pity</h3>
+			<p>Configure reward chances and progressive pity mechanics.</p>
+		</div>
+
+		<div class="feature-card">
+			<div class="feature-icon">📦</div>
+			<h3>Container Assignments</h3>
+			<p>Control which loot tables are associated with different containers and dimensions.</p>
+		</div>
+	</div>
+
+	<h2>Explore the documentation</h2>
+	<p>
+		Use the navigation sidebar to explore the different guides and
+		configuration options available in Loot Containers.
+	</p>
+
+	<a href={`${base}docs/installation/`} class="next-button">
+		Next: Installation →
+	</a>
+</DocsLayout>
+
+<style>
+	.welcome {
+		padding: 25px;
+		margin-bottom: 38px;
+		border: 1px solid rgba(180, 160, 255, .2);
+		border-radius: 17px;
+		background: linear-gradient(
+			135deg,
+			rgba(139, 220, 255, .08),
+			rgba(243, 166, 232, .08)
+		);
+	}
+
+	.welcome-badge {
+		color: #d6a8f4;
+		font-size: 10px;
+		font-weight: 800;
+		letter-spacing: 2px;
+	}
+
+	.welcome h2 {
+		margin: 15px 0 10px;
+		font-size: 25px;
+		color: white;
+	}
+
+	.welcome p, .feature-card p {
+		color: #aaa5bb;
+		font-size: 13px;
+		line-height: 1.8;
+	}
+
+	.feature-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 14px;
+		margin: 22px 0 38px;
+	}
+
+	.feature-card {
+		padding: 19px;
+		border: 1px solid rgba(255,255,255,.10);
+		border-radius: 15px;
+		background: rgba(255,255,255,.035);
+		transition: .2s;
+	}
+
+	.feature-card:hover {
+		transform: translateY(-3px);
+		border-color: rgba(180,160,255,.35);
+		background: rgba(255,255,255,.07);
+	}
+
+	.feature-icon {
+		font-size: 24px;
+	}
+
+	.feature-card h3 {
+		margin: 12px 0 5px;
+		color: #eee8ff;
+		font-size: 15px;
+	}
+
+	.feature-card p {
+		margin: 0;
+	}
+
+	.next-button {
+		display: inline-block;
+		margin-top: 15px;
+		padding: 12px 18px;
+		border: 1px solid rgba(190,170,255,.25);
+		border-radius: 11px;
+		background: linear-gradient(
+			100deg,
+			rgba(139,220,255,.13),
+			rgba(243,166,232,.13)
+		);
+		color: #e7d9ff;
+		font-size: 13px;
+		text-decoration: none;
+		transition: .2s;
+	}
+
+	.next-button:hover {
+		border-color: rgba(190,170,255,.55);
+		transform: translateY(-2px);
+	}
+
+	@media (max-width: 600px) {
+		.feature-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

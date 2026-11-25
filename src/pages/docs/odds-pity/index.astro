@@ -1,0 +1,618 @@
+
+---
+import DocsLayout from "../../../layouts/DocsLayout.astro";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<DocsLayout
+  title="Odds & Pity"
+  description="Learn how reward chances work, how progressive odds increase, and how pity protects players from long unlucky streaks."
+>
+  <section class="intro">
+    <span class="eyebrow">LOOT TABLE CONFIGURATION</span>
+    <h1>Odds & Pity</h1>
+    <p>
+      Control how often players receive rewards from containers. Loot Containers
+      supports fixed reward odds and progressive odds, allowing server owners to
+      choose between consistent probabilities and an increasing chance after
+      unsuccessful attempts.
+    </p>
+  </section>
+
+  <section>
+    <h2>Understanding reward chances</h2>
+    <p>
+      Every loot table has a reward chance system. When a reward is generated,
+      the mod selects an item, builds the item, and then rolls the configured
+      reward chance.
+    </p>
+    <p>
+      If the chance roll fails, the generated item is discarded and no reward
+      is returned. If the roll succeeds, the selected item is returned to the
+      reward system.
+    </p>
+
+    <div class="info-card">
+      <strong>Important</strong>
+      <p>
+        Item selection and reward chance are separate operations. Your rarity
+        weights determine which item is selected, while the odds system
+        determines whether that selected item is awarded.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Fixed odds</h2>
+    <p>
+      Fixed odds use the same probability for every attempt. Previous failures
+      do not increase the chance of receiving a reward.
+    </p>
+
+    <h3>Configuration</h3>
+    <p>
+      Set <code>chanceSystem</code> to <code>FIXED</code> to use fixed odds.
+      You can configure the probability using either a percentage or a ratio.
+    </p>
+
+    <div class="code-card">
+      <div class="code-heading">Percentage example</div>
+      <pre><code>{`{
+        "chanceSystem": "FIXED",
+        "fixedOdds": {
+          "format": "PERCENTAGE",
+          "percentage": 5.0
+        }
+      }`}</code></pre>
+    </div>
+
+    <div class="code-card">
+      <div class="code-heading">Ratio example</div>
+      <pre><code>{`{
+        "chanceSystem": "FIXED",
+        "fixedOdds": {
+          "format": "RATIO",
+          "numerator": 1,
+          "denominator": 100
+        }
+      }`}</code></pre>
+    </div>
+
+    <h3>Percentage format</h3>
+    <p>
+      The <code>percentage</code> setting represents a percentage from
+      0 to 100. For example, <code>5.0</code> means a 5% reward chance.
+    </p>
+
+    <h3>Ratio format</h3>
+    <p>
+      The <code>numerator</code> and <code>denominator</code> settings
+      represent a fraction. For example, 1 divided by 100 produces a 1%
+      reward chance.
+    </p>
+
+    <table>
+      <thead>
+        <tr><th>Configuration</th><th>Reward chance</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1 / 100</td><td>1%</td></tr>
+        <tr><td>1 / 20</td><td>5%</td></tr>
+        <tr><td>1 / 10</td><td>10%</td></tr>
+        <tr><td>1 / 4</td><td>25%</td></tr>
+        <tr><td>1 / 2</td><td>50%</td></tr>
+        <tr><td>1 / 1</td><td>100%</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-card">
+      <strong>Validation</strong>
+      <p>
+        Percentage values are clamped between 0 and 100. Ratio values must
+        have a positive numerator and denominator, and the numerator cannot
+        exceed the denominator. Invalid values produce a 0% chance.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Progressive odds</h2>
+    <p>
+      Progressive odds increase the reward chance after unsuccessful attempts.
+      This system is commonly known as pity or a pity system.
+    </p>
+    <p>
+      Instead of keeping the same probability forever, the chance gradually
+      increases until it reaches the configured maximum.
+    </p>
+
+    <div class="code-card">
+      <div class="code-heading">Progressive configuration</div>
+      <pre><code>{`{
+        "chanceSystem": "PROGRESSIVE",
+        "progressiveOdds": {
+          "startingChance": 1.0,
+          "increasePerFailure": 1.0,
+          "maximumChance": 100.0,
+          "failuresBeforeIncrease": 0,
+          "resetAfterReward": true
+        }
+      }`}</code></pre>
+    </div>
+
+    <h3>Progressive settings</h3>
+
+    <div class="setting">
+      <h4><code>startingChance</code></h4>
+      <span class="default">Default: 1.0</span>
+      <p>
+        The initial reward chance, expressed as a percentage. A value of
+        1.0 means 1%.
+      </p>
+    </div>
+
+    <div class="setting">
+      <h4><code>increasePerFailure</code></h4>
+      <span class="default">Default: 1.0</span>
+      <p>
+        The number of percentage points added after each eligible failed
+        attempt. A value of 1.0 increases the chance by one percentage point.
+      </p>
+    </div>
+
+    <div class="setting">
+      <h4><code>maximumChance</code></h4>
+      <span class="default">Default: 100.0</span>
+      <p>
+        The highest reward chance the progressive system can reach. The value
+        is limited to the range of 0 to 100.
+      </p>
+    </div>
+
+    <div class="setting">
+      <h4><code>failuresBeforeIncrease</code></h4>
+      <span class="default">Default: 0</span>
+      <p>
+        The number of failures allowed before the progressive increase begins.
+        This delays the first increase.
+      </p>
+      <p>
+        For example, setting this to 3 means the first three failures do not
+        increase the chance. The fourth attempt uses the starting chance plus
+        one increase.
+      </p>
+    </div>
+
+    <div class="setting">
+      <h4><code>resetAfterReward</code></h4>
+      <span class="default">Default: true</span>
+      <p>
+        Determines whether the player's failure count resets after successfully
+        receiving a reward.
+      </p>
+      <ul>
+        <li><strong>true:</strong> Resets the failure count to zero.</li>
+        <li><strong>false:</strong> Keeps the existing failure count.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>How progressive chance is calculated</h2>
+    <p>
+      The progressive system uses the following calculation:
+    </p>
+
+    <div class="formula">
+      Chance = Starting Chance + (Eligible Failures × Increase Per Failure)
+    </div>
+
+    <p>
+      The result is then limited by the configured maximum chance.
+    </p>
+
+    <p>
+      Eligible failures are calculated by subtracting
+      <code>failuresBeforeIncrease</code> from the current failure count.
+      Negative results are treated as zero.
+    </p>
+
+    <h3>Worked example</h3>
+    <p>
+      Imagine a loot table configured with:
+    </p>
+    <ul>
+      <li>Starting chance: 1%</li>
+      <li>Increase per failure: 2 percentage points</li>
+      <li>Maximum chance: 15%</li>
+      <li>Failures before increase: 2</li>
+    </ul>
+
+    <table>
+      <thead>
+        <tr><th>Previous failures</th><th>Next attempt chance</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>0</td><td>1%</td></tr>
+        <tr><td>1</td><td>1%</td></tr>
+        <tr><td>2</td><td>1%</td></tr>
+        <tr><td>3</td><td>3%</td></tr>
+        <tr><td>4</td><td>5%</td></tr>
+        <tr><td>5</td><td>7%</td></tr>
+        <tr><td>6</td><td>9%</td></tr>
+        <tr><td>7</td><td>11%</td></tr>
+        <tr><td>8</td><td>13%</td></tr>
+        <tr><td>9</td><td>15%</td></tr>
+        <tr><td>10+</td><td>15%</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-card">
+      <strong>Remember</strong>
+      <p>
+        The chance is calculated before each attempt. A failed attempt
+        increases the failure count for the next attempt, not the attempt
+        that just failed.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2>How pity is tracked</h2>
+    <p>
+      Failure counts are tracked separately for each player and loot table.
+      This means progress on one loot table does not affect another.
+    </p>
+
+    <ul>
+      <li>Each player has their own failure counts.</li>
+      <li>Each loot table has an independent failure count per player.</li>
+      <li>Failure counts are saved using Minecraft's SavedData system.</li>
+      <li>Saved pity data persists across server restarts.</li>
+    </ul>
+
+    <p>
+      The mod stores this information using the
+      <code>lootcontainers_pity</code> saved-data identifier.
+    </p>
+
+    <h3>Example</h3>
+    <table>
+      <thead>
+        <tr><th>Player</th><th>Loot table</th><th>Failures</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Player A</td><td>Overworld</td><td>8</td></tr>
+        <tr><td>Player A</td><td>Nether</td><td>2</td></tr>
+        <tr><td>Player B</td><td>Overworld</td><td>4</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      These are three independent counters. Player A's Overworld failures
+      do not affect Player A's Nether progress or Player B's progress.
+    </p>
+  </section>
+
+  <section>
+    <h2>Recommended starting values</h2>
+    <p>
+      The following are suggested balancing configurations, not built-in
+      defaults. Adjust them to match your server's progression and reward
+      frequency.
+    </p>
+
+    <table>
+      <thead>
+        <tr><th>Style</th><th>Start</th><th>Increase</th><th>Maximum</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Very rare rewards</td><td>1%</td><td>0.5%</td><td>10%</td></tr>
+        <tr><td>Balanced rewards</td><td>2%</td><td>1%</td><td>25%</td></tr>
+        <tr><td>Generous rewards</td><td>5%</td><td>2%</td><td>50%</td></tr>
+        <tr><td>Frequent rewards</td><td>10%</td><td>5%</td><td>100%</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Balancing advice</h3>
+    <ul>
+      <li>
+        Use a lower starting chance for powerful or extremely rare rewards.
+      </li>
+      <li>
+        Increase the chance slowly if containers are opened frequently.
+      </li>
+      <li>
+        Use a lower maximum chance when rewards should remain uncommon.
+      </li>
+      <li>
+        Increase the maximum chance if players should eventually have a much
+        better opportunity to receive a reward.
+      </li>
+      <li>
+        Enable resetting if you want each successful reward to begin a new
+        pity cycle.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Reward chance field</h2>
+    <div class="warning-card">
+      <strong>Not implemented yet</strong>
+      <p>
+        Loot table definitions currently contain a
+        <code>rewardChance</code> field with a default value of
+        <code>0.25</code>. However, the current reward-generation code does
+        not use this field.
+      </p>
+      <p>
+        Fixed and progressive odds currently use their own settings instead.
+        The shared reward chance system is planned for a future implementation.
+        Changing <code>rewardChance</code> currently has no effect on reward rolls.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Frequently asked questions</h2>
+
+    <details>
+      <summary>Does pity guarantee a reward?</summary>
+      <p>
+        Only if the progressive maximum chance reaches 100%. A lower maximum
+        chance does not guarantee a reward, even after many failed attempts.
+      </p>
+    </details>
+
+    <details>
+      <summary>Does fixed odds use pity?</summary>
+      <p>
+        No. Fixed odds do not track or increase chances based on failed attempts.
+      </p>
+    </details>
+
+    <details>
+      <summary>Does pity carry over between loot tables?</summary>
+      <p>
+        No. Each player has a separate failure counter for every loot table.
+      </p>
+    </details>
+
+    <details>
+      <summary>What happens when a player receives a reward?</summary>
+      <p>
+        If progressive odds are enabled and
+        <code>resetAfterReward</code> is true, that player's failure count
+        for the current loot table resets to zero.
+      </p>
+    </details>
+
+    <details>
+      <summary>Are pity counts saved when the server closes?</summary>
+      <p>
+        Yes. Pity data is stored using Minecraft's SavedData system.
+      </p>
+    </details>
+  </section>
+
+  <section class="next-page">
+    <span class="eyebrow">CONTINUE READING</span>
+    <h2>Explore loot tables</h2>
+    <p>
+      Learn how item pools, rarity weights, reward quantities, and container
+      assignments work together.
+    </p>
+    <a href={`${base}docs/loot-tables/`}>Read Loot Tables →</a>
+  </section>
+</DocsLayout>
+
+<style>
+  .intro {
+    margin-bottom: 2.5rem;
+  }
+
+  .eyebrow {
+    color: #b9a4ff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+  }
+
+  h1 {
+    margin: 0.6rem 0 1rem;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    letter-spacing: -0.055em;
+  }
+
+  h2 {
+    margin: 2.7rem 0 1rem;
+    font-size: 1.65rem;
+    letter-spacing: -0.035em;
+  }
+
+  h3 {
+    margin: 1.8rem 0 0.7rem;
+    font-size: 1.15rem;
+  }
+
+  h4 {
+    margin: 0 0 0.5rem;
+  }
+
+  p, li {
+    color: #c3c1d3;
+    line-height: 1.8;
+  }
+
+  ul {
+    padding-left: 1.4rem;
+  }
+
+  li {
+    margin-bottom: 0.45rem;
+  }
+
+  code {
+    color: #e4c7ff;
+    background: rgba(190, 150, 255, 0.12);
+    padding: 0.15rem 0.35rem;
+    border-radius: 5px;
+    font-size: 0.9em;
+  }
+
+  .info-card,
+  .warning-card,
+  .code-card,
+  .setting,
+  .formula,
+  .next-page {
+    margin: 1.2rem 0;
+    padding: 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.035);
+  }
+
+  .info-card strong {
+    color: #a9dfff;
+  }
+
+  .warning-card {
+    border-color: rgba(255, 180, 120, 0.25);
+  }
+
+  .warning-card strong {
+    color: #ffc18d;
+  }
+
+  .info-card p,
+  .warning-card p {
+    margin-bottom: 0;
+  }
+
+  .code-card {
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .code-heading {
+    padding: 0.8rem 1rem;
+    color: #c8b6ff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  pre {
+    margin: 0;
+    padding: 1rem;
+    overflow-x: auto;
+    line-height: 1.65;
+  }
+
+  pre code {
+    padding: 0;
+    background: none;
+    color: #ded9ed;
+  }
+
+  .setting {
+    margin: 0.8rem 0;
+  }
+
+  .setting p:last-child {
+    margin-bottom: 0;
+  }
+
+  .default {
+    display: inline-block;
+    margin: 0.25rem 0 0.6rem;
+    color: #b9a4ff;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .formula {
+    text-align: center;
+    color: #d8c7ff;
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+
+  th, td {
+    padding: 0.85rem 0.7rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  }
+
+  th {
+    color: #d8c7ff;
+    font-weight: 700;
+  }
+
+  td {
+    color: #c3c1d3;
+  }
+
+  details {
+    padding: 1rem 1.1rem;
+    margin: 0.7rem 0;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.025);
+  }
+
+  summary {
+    cursor: pointer;
+    color: #e5ddf5;
+    font-weight: 600;
+  }
+
+  details p {
+    margin-bottom: 0;
+  }
+
+  .next-page {
+    margin-top: 3rem;
+    background: linear-gradient(
+      135deg,
+      rgba(139, 220, 255, 0.08),
+      rgba(243, 166, 232, 0.08)
+    );
+  }
+
+  .next-page h2 {
+    margin-top: 0.6rem;
+  }
+
+  .next-page a {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: #cbb4ff;
+    text-decoration: none;
+    font-weight: 700;
+  }
+
+  .next-page a:hover {
+    color: #ffffff;
+  }
+
+  @media (max-width: 600px) {
+    table {
+      font-size: 0.78rem;
+    }
+
+    th, td {
+      padding: 0.65rem 0.45rem;
+    }
+  }
+</style>

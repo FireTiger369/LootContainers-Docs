@@ -1,0 +1,680 @@
+
+---
+const base = import.meta.env.BASE_URL;
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#090914" />
+		<meta name="description" content="Official documentation for the Loot Containers Minecraft mod." />
+		<title>Loot Containers | Documentation</title>
+	</head>
+
+	<body>
+		<div class="background-glow"></div>
+
+		<header class="navbar glass">
+			<a href={base} class="brand">
+                <img
+                    class="brand-logo"
+                    src={`${base}images/loot-containers-wordmark.png`}
+                    alt="Loot Containers"
+                />
+            </a>
+
+			<nav>
+				<a href={base}>Home</a>
+				<a href="#features">Features</a>
+				<a href="#getting-started">Getting Started</a>
+				<a href="#configuration">Configuration</a>
+			</nav>
+
+			<a class="github-button" href="https://github.com/FireTiger369/LootContainers-Docs">
+				GitHub ↗
+			</a>
+		</header>
+
+		<main>
+			<section class="hero">
+				<div class="hero-badge glass">
+					<span class="status-dot"></span>
+					Official Loot Containers Documentation
+				</div>
+
+				<h1>
+					Your world.<br />
+					Your loot.<br />
+					<span>Unlimited possibilities.</span>
+				</h1>
+
+				<p class="hero-description">
+					Everything you need to know about Loot Containers.
+					Learn how to configure loot, customize rarities, manage
+					permissions, and build your own loot experience.
+				</p>
+
+				<div class="hero-actions">
+					<a href="#getting-started" class="primary-button">Get Started →</a>
+					<a href="#features" class="secondary-button glass">Explore Features</a>
+				</div>
+
+				<div class="hero-panel glass">
+					<div class="panel-top">
+						<div class="window-dots"><i></i><i></i><i></i></div>
+						<span>LOOT CONTAINERS</span>
+						<span class="version">DOCUMENTATION</span>
+					</div>
+
+					<div class="chest-display">
+						<div class="chest-glow"></div>
+						<div class="minecraft-chest" aria-label="Minecraft chest">
+                            <div class="chest-lid"></div>
+                            <div class="chest-body">
+                                <div class="chest-band"></div>
+                                <div class="chest-lock"></div>
+                            </div>
+                        </div>
+						<div class="chest-caption">What's inside?</div>
+						<div class="rarity-labels">
+                            <span class="common">COMMON</span>
+                            <span class="uncommon">UNCOMMON</span>
+                            <span class="rare">RARE</span>
+                            <span class="epic">EPIC</span>
+                            <span class="legendary">LEGENDARY</span>
+                            <span class="mythic">MYTHIC</span>
+                        </div>
+					</div>
+				</div>
+			</section>
+
+			<section class="content-section" id="features">
+				<div class="section-heading">
+					<span class="eyebrow">EXPLORE THE MOD</span>
+					<h2>Everything in one place.</h2>
+					<p>Find guides and information for every part of Loot Containers.</p>
+				</div>
+
+				<div class="card-grid">
+					<a href={`${base}docs/getting-started/`} class="feature-card glass">
+                        <div class="card-icon">🚀</div>
+                        <h3>Getting Started</h3>
+                        <p>Installation instructions and everything you need to begin.</p>
+                        <span>Read the guide →</span>
+                    </a>
+
+                    <a href={`${base}docs/rarities/`} class="feature-card glass">
+                        <div class="card-icon">💎</div>
+                        <h3>Rarities</h3>
+                        <p>Understand rarity tiers, weights, colors, and descriptions.</p>
+                        <span>Explore rarities →</span>
+                    </a>
+
+                    <a href={`${base}docs/loot-tables/`} class="feature-card glass">
+                        <div class="card-icon">🎁</div>
+                        <h3>Loot Tables</h3>
+                        <p>Create and customize the items containers can reward.</p>
+                        <span>Learn more →</span>
+                    </a>
+
+                    <a href={`${base}docs/odds-pity/`} class="feature-card glass">
+                        <div class="card-icon">🎲</div>
+                        <h3>Odds &amp; Pity</h3>
+                        <p>Configure fixed reward chances and progressive pity systems.</p>
+                        <span>Explore reward odds →</span>
+                    </a>
+
+                    <a href={`${base}docs/containers/`} class="feature-card glass">
+                        <div class="card-icon">📦</div>
+                        <h3>Container Assignments</h3>
+                        <p>Connect blocks, dimensions, and loot tables.</p>
+                        <span>View assignments →</span>
+                    </a>
+
+                    <a href={`${base}docs/configuration/`} class="feature-card glass">
+                        <div class="card-icon">⚙️</div>
+                        <h3>Configuration Reference</h3>
+                        <p>Explore every configuration file, setting, and default value.</p>
+                        <span>View reference →</span>
+                    </a>
+				</div>
+			</section>
+
+			<section class="content-section getting-started" id="getting-started">
+                <div class="section-heading">
+                    <span class="eyebrow">NEW TO LOOT CONTAINERS?</span>
+                    <h2>Start your adventure.</h2>
+                    <p>
+                        Everything you need to install the mod and get your first
+                        containers working.
+                    </p>
+                </div>
+
+                <div class="card-grid">
+                    <a href={`${base}docs/getting-started/`} class="feature-card glass">
+                        <div class="card-icon">📖</div>
+                        <h3>Getting Started Guide</h3>
+                        <p>Learn about Loot Containers and how its systems work.</p>
+                        <span>Get started →</span>
+                    </a>
+
+                    <a href={`${base}docs/installation/`} class="feature-card glass">
+                        <div class="card-icon">⬇️</div>
+                        <h3>Installation</h3>
+                        <p>Follow the instructions to install Loot Containers.</p>
+                        <span>Install the mod →</span>
+                    </a>
+                </div>
+            </section>
+
+			<section class="content-section" id="configuration">
+                <div class="section-heading">
+                    <span class="eyebrow">MAKE IT YOURS</span>
+                    <h2>Take control of your loot.</h2>
+                    <p>
+                        Customize rewards, manage containers, and control
+                        access to your server configuration.
+                    </p>
+                </div>
+
+                <div class="card-grid">
+                    <a href={`${base}docs/configuration/`} class="feature-card glass">
+                        <div class="card-icon">⚙️</div>
+                        <h3>Configuration Reference</h3>
+                        <p>Explore configuration files, settings, and defaults.</p>
+                        <span>View reference →</span>
+                    </a>
+
+                    <a href={`${base}docs/containers/`} class="feature-card glass">
+                        <div class="card-icon">📦</div>
+                        <h3>Container Assignments</h3>
+                        <p>Choose which loot tables are used by your containers.</p>
+                        <span>Manage assignments →</span>
+                    </a>
+
+                    <a href={`${base}docs/permissions/`} class="feature-card glass">
+                        <div class="card-icon">🔐</div>
+                        <h3>Permissions</h3>
+                        <p>Learn about configuration access and server permissions.</p>
+                        <span>View permissions →</span>
+                    </a>
+
+                    <a href={`${base}docs/odds-pity/`} class="feature-card glass">
+                        <div class="card-icon">🎲</div>
+                        <h3>Reward Odds</h3>
+                        <p>Adjust fixed odds and progressive reward chances.</p>
+                        <span>Configure odds →</span>
+                    </a>
+                </div>
+            </section>
+		</main>
+
+		<footer>
+			<div class="footer-brand">LOOT CONTAINERS</div>
+			<p>Documentation for the Loot Containers Minecraft mod.</p>
+			<span>© 2026 Loot Containers</span>
+		</footer>
+	</body>
+</html>
+
+<style>
+	:global(*) {
+		box-sizing: border-box;
+	}
+
+	:global(html) {
+		scroll-behavior: smooth;
+	}
+
+	:global(body) {
+		margin: 0;
+		min-height: 100vh;
+		background: #090914;
+		color: #f4f1ff;
+		font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+		overflow-x: hidden;
+	}
+
+	.background-glow {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: -1;
+        background:
+            radial-gradient(ellipse at 50% 5%, rgba(243, 166, 232, 0.18), transparent 45%),
+            radial-gradient(ellipse at 90% 45%, rgba(139, 220, 255, 0.12), transparent 35%),
+            radial-gradient(ellipse at 5% 70%, rgba(139, 220, 255, 0.12), transparent 40%);
+    }
+
+	.glass {
+		background: linear-gradient(135deg, rgba(255,255,255,0.105), rgba(255,255,255,0.025));
+		border: 1px solid rgba(255,255,255,0.14);
+		box-shadow: 0 12px 40px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.09);
+		backdrop-filter: blur(24px) saturate(160%);
+		-webkit-backdrop-filter: blur(24px) saturate(160%);
+	}
+
+	.navbar {
+		position: sticky;
+		top: 16px;
+		z-index: 10;
+		width: min(1150px, calc(100% - 40px));
+		height: 68px;
+		margin: 16px auto 0;
+		padding: 0 20px;
+		border-radius: 22px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.brand {
+		display: flex;
+		align-items: center;
+		gap: 11px;
+		color: white;
+		text-decoration: none;
+		font-weight: 650;
+		white-space: nowrap;
+	}
+
+	.brand strong {
+		color: #d6b66c;
+	}
+
+	.brand-logo {
+        width: 210px;
+        height: 48px;
+        object-fit: contain;
+    }
+
+	nav {
+		display: flex;
+		gap: 30px;
+	}
+
+	nav a, .github-button {
+		color: #c3bfd3;
+		text-decoration: none;
+		font-size: 13px;
+		transition: color .2s;
+	}
+
+	nav a:hover, .github-button:hover {
+		color: white;
+	}
+
+	.github-button {
+		padding: 10px 15px;
+		border: 1px solid rgba(255,255,255,.16);
+		border-radius: 12px;
+		color: white;
+	}
+
+	main {
+		width: min(1100px, calc(100% - 40px));
+		margin: auto;
+	}
+
+	.hero {
+		text-align: center;
+		padding: 115px 0 80px;
+	}
+
+	.hero-badge {
+		display: inline-flex;
+		align-items: center;
+		gap: 9px;
+		padding: 9px 15px;
+		border-radius: 30px;
+		color: #d5c9ff;
+		font-size: 12px;
+	}
+
+	.status-dot {
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: #b69aff;
+		box-shadow: 0 0 12px #a77cff;
+	}
+
+	h1 {
+		margin: 32px 0 20px;
+		font-size: clamp(48px, 7vw, 82px);
+		line-height: 1.06;
+		letter-spacing: -4px;
+		font-weight: 800;
+	}
+
+	h1 span {
+        background: linear-gradient(
+            to top,
+            #8bdcff,
+            #f3a6e8
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+	.hero-description {
+		max-width: 620px;
+		margin: auto;
+		color: #a7a2b8;
+		font-size: 16px;
+		line-height: 1.8;
+	}
+
+	.hero-actions {
+		display: flex;
+		justify-content: center;
+		gap: 13px;
+		margin-top: 32px;
+	}
+
+	.primary-button, .secondary-button {
+		padding: 14px 21px;
+		border-radius: 13px;
+		text-decoration: none;
+		font-size: 14px;
+		font-weight: 650;
+		transition: transform .2s, box-shadow .2s;
+	}
+
+	.primary-button {
+		color: #171020;
+		background: linear-gradient(110deg, #c6a5ff, #e7c77c);
+		box-shadow: 0 5px 25px rgba(173, 131, 255, .22);
+	}
+
+	.secondary-button {
+		color: white;
+	}
+
+	.primary-button:hover, .secondary-button:hover {
+		transform: translateY(-3px);
+	}
+
+	.hero-panel {
+		max-width: 680px;
+		height: 280px;
+		margin: 75px auto 0;
+		border-radius: 25px;
+		overflow: hidden;
+	}
+
+	.panel-top {
+		height: 43px;
+		padding: 0 18px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		border-bottom: 1px solid rgba(255,255,255,.09);
+		color: #89849d;
+		font-size: 9px;
+		letter-spacing: 2px;
+	}
+
+	.window-dots {
+		display: flex;
+		gap: 5px;
+	}
+
+	.window-dots i {
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: rgba(255,255,255,.25);
+	}
+
+	.version {
+		color: #b99aff;
+	}
+
+	.chest-display {
+		position: relative;
+		height: 235px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.chest-glow {
+		position: absolute;
+		width: 220px;
+		height: 130px;
+		border-radius: 50%;
+		background: rgba(150, 103, 255, .22);
+		filter: blur(45px);
+	}
+
+	.minecraft-chest {
+        position: relative;
+        width: 116px;
+        height: 82px;
+        filter: drop-shadow(0 8px 12px rgba(0,0,0,.5));
+        image-rendering: pixelated;
+    }
+
+    .chest-lid {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 116px;
+        height: 27px;
+        border: 5px solid #321b0e;
+        background: linear-gradient(
+            90deg,
+            #75401e,
+            #a86630 45%,
+            #75401e
+        );
+        box-shadow: inset 0 4px #c18a4d;
+    }
+
+    .chest-body {
+        position: absolute;
+        top: 29px;
+        left: 0;
+        width: 116px;
+        height: 53px;
+        border: 5px solid #321b0e;
+        background: linear-gradient(
+            90deg,
+            #75401e,
+            #a86630 45%,
+            #75401e
+        );
+        box-shadow: inset 0 5px #bd8244;
+    }
+
+    .chest-band {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 7px;
+        background: #4b2915;
+    }
+
+    .chest-lock {
+        position: absolute;
+        top: -5px;
+        left: 43px;
+        width: 20px;
+        height: 25px;
+        border: 4px solid #69400d;
+        background: linear-gradient(90deg, #d69b25, #ffe078);
+        box-shadow: inset 0 0 0 2px #f5c34e;
+    }
+
+	.chest-caption {
+		margin-top: 4px;
+		color: #d4c8f4;
+		font-size: 12px;
+		letter-spacing: 2px;
+	}
+
+	.rarity-labels {
+		display: flex;
+		gap: 9px;
+		margin-top: 20px;
+		font-size: 8px;
+		letter-spacing: 1px;
+		flex-wrap: wrap;
+        justify-content: center;
+	}
+
+	.rarity-labels span {
+		padding: 6px 9px;
+		border-radius: 7px;
+		background: rgba(255,255,255,.06);
+	}
+
+	.common { color: #c4c4c4; }
+    .uncommon { color: #65d58b; }
+    .rare { color: #5bafff; }
+    .epic { color: #c18aff; }
+    .legendary { color: #eac66c; }
+    .mythic { color: #ff65dc; }
+
+	.content-section {
+		padding: 65px 0;
+	}
+
+	.section-heading {
+		margin-bottom: 30px;
+	}
+
+	.eyebrow {
+		color: #b99aff;
+		font-size: 10px;
+		font-weight: 750;
+		letter-spacing: 2px;
+	}
+
+	h2 {
+		margin: 12px 0;
+		font-size: 34px;
+		letter-spacing: -1px;
+	}
+
+	.section-heading p {
+		color: #a7a2b8;
+		font-size: 14px;
+		line-height: 1.7;
+	}
+
+	.card-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 16px;
+	}
+
+	.feature-card {
+		padding: 25px;
+		border-radius: 19px;
+		color: white;
+		text-decoration: none;
+		transition: transform .25s, border-color .25s, background .25s;
+	}
+
+	.feature-card:hover {
+		transform: translateY(-5px);
+		border-color: rgba(194, 162, 255, .5);
+		background: rgba(255,255,255,.10);
+	}
+
+	.card-icon {
+		font-size: 25px;
+	}
+
+	h3 {
+		margin: 17px 0 8px;
+		font-size: 18px;
+	}
+
+	.feature-card p {
+		min-height: 43px;
+		color: #aaa5bb;
+		font-size: 13px;
+		line-height: 1.7;
+	}
+
+	.feature-card > span {
+		display: inline-block;
+		margin-top: 10px;
+		color: #c4a8ff;
+		font-size: 12px;
+	}
+
+	footer {
+		margin-top: 60px;
+		padding: 40px 20px;
+		border-top: 1px solid rgba(255,255,255,.09);
+		text-align: center;
+		color: #777187;
+		font-size: 12px;
+	}
+
+	.footer-brand {
+		color: #d6b66c;
+		font-weight: 800;
+		letter-spacing: 2px;
+	}
+
+	@media (max-width: 760px) {
+		.navbar {
+			height: auto;
+			min-height: 62px;
+			flex-wrap: wrap;
+			gap: 15px;
+			padding: 14px;
+		}
+
+		nav {
+			order: 3;
+			width: 100%;
+			justify-content: center;
+			gap: 16px;
+			flex-wrap: wrap;
+		}
+
+		nav a {
+			font-size: 11px;
+		}
+
+		.hero {
+			padding-top: 80px;
+		}
+
+		h1 {
+			letter-spacing: -2px;
+		}
+
+		.hero-panel {
+			margin-top: 55px;
+		}
+
+		.card-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.hero-actions {
+			flex-wrap: wrap;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		:global(html) {
+			scroll-behavior: auto;
+		}
+
+		*, *::before, *::after {
+			transition-duration: 0.01ms !important;
+		}
+	}
+</style>

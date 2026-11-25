@@ -1,0 +1,245 @@
+
+---
+import DocsLayout from "../../../layouts/DocsLayout.astro";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<DocsLayout
+	title="Rarity System"
+	description="Learn about the six Loot Containers rarity tiers and how rarity weights work."
+>
+	<div class="info-box">
+		<strong>Six rarity tiers</strong>
+		<p>
+			Loot Containers features six rarity tiers. Each tier helps distinguish
+			rewards and can be configured to control how frequently items appear.
+		</p>
+	</div>
+
+	<h2>Rarity overview</h2>
+
+	<div class="rarity-list">
+		<div class="rarity-card common">
+			<span>01</span>
+			<strong>Common</strong>
+			<p>The most basic rarity tier.</p>
+		</div>
+
+		<div class="rarity-card uncommon">
+			<span>02</span>
+			<strong>Uncommon</strong>
+			<p>A step above Common.</p>
+		</div>
+
+		<div class="rarity-card rare">
+			<span>03</span>
+			<strong>Rare</strong>
+			<p>A less frequently selected tier.</p>
+		</div>
+
+		<div class="rarity-card epic">
+			<span>04</span>
+			<strong>Epic</strong>
+			<p>A higher-tier reward category.</p>
+		</div>
+
+		<div class="rarity-card legendary">
+			<span>05</span>
+			<strong>Legendary</strong>
+			<p>A particularly uncommon tier.</p>
+		</div>
+
+		<div class="rarity-card mythic">
+			<span>06</span>
+			<strong>Mythic</strong>
+			<p>The highest rarity tier.</p>
+		</div>
+	</div>
+
+	<h2>Rarity colors</h2>
+
+	<p>
+		Each rarity has its own color to make rewards easier to recognize.
+		These colors are also used throughout the Loot Containers interface.
+	</p>
+
+	<div class="color-list">
+		<div><span class="color-dot common-bg"></span>Common <code>#C4C4C4</code></div>
+		<div><span class="color-dot uncommon-bg"></span>Uncommon <code>#65D58B</code></div>
+		<div><span class="color-dot rare-bg"></span>Rare <code>#5BAFFF</code></div>
+		<div><span class="color-dot epic-bg"></span>Epic <code>#C18AFF</code></div>
+		<div><span class="color-dot legendary-bg"></span>Legendary <code>#EAC66C</code></div>
+		<div><span class="color-dot mythic-bg"></span>Mythic <code>#FF65DC</code></div>
+	</div>
+
+	<h2>Rarity weights</h2>
+
+	<p>
+		Rarity weights influence how likely each rarity is to be selected
+		when a reward is generated. Higher weights make a rarity more likely
+		to be selected relative to other eligible rarities.
+	</p>
+
+	<div class="info-box">
+		<strong>Example</strong>
+		<p>
+			If a rarity has a higher weight than another rarity, it has a
+			greater chance of being selected, assuming both are eligible
+			for the same reward selection.
+		</p>
+	</div>
+
+	<h2>Customizing rarity distribution</h2>
+
+	<p>
+		You can adjust rarity weights to create different reward experiences.
+		For example, a loot table can favor Common rewards while making
+		Mythic rewards much less frequent.
+	</p>
+
+	<p>
+		Rarity weights work alongside item pools, reward chances, and
+		your other loot table settings.
+	</p>
+
+	<div class="success-box">
+		<strong>Continue learning</strong>
+		<p>
+			Next, learn about reward odds and the pity system, including
+			how pity can help players who have gone a long time without
+			receiving a desired reward.
+		</p>
+		<a href={`${base}docs/odds-pity/`}>Explore Odds &amp; Pity →</a>
+	</div>
+
+	<div class="page-navigation">
+		<a href={`${base}docs/loot-tables/`}>← Loot Tables</a>
+		<a href={`${base}docs/odds-pity/`}>Next: Odds &amp; Pity →</a>
+	</div>
+</DocsLayout>
+
+<style>
+	.info-box,
+	.success-box {
+		padding: 18px 20px;
+		margin: 22px 0;
+		border: 1px solid rgba(139, 220, 255, 0.2);
+		border-radius: 16px;
+		background: rgba(139, 220, 255, 0.07);
+	}
+
+	.info-box strong,
+	.success-box strong {
+		display: block;
+		margin-bottom: 7px;
+	}
+
+	.info-box p,
+	.success-box p {
+		margin: 0;
+	}
+
+	.success-box {
+		border-color: rgba(243, 166, 232, 0.25);
+		background: rgba(243, 166, 232, 0.07);
+	}
+
+	.rarity-list {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 14px;
+		margin: 22px 0;
+	}
+
+	.rarity-card {
+		padding: 20px;
+		border: 1px solid currentColor;
+		border-radius: 16px;
+		background: rgba(255, 255, 255, 0.035);
+	}
+
+	.rarity-card span {
+		display: block;
+		margin-bottom: 12px;
+		font-size: 0.75rem;
+		font-weight: 700;
+		opacity: 0.7;
+	}
+
+	.rarity-card strong {
+		display: block;
+		font-size: 1.2rem;
+	}
+
+	.rarity-card p {
+		margin: 7px 0 0;
+		color: #a9a9bb;
+		font-size: 0.9rem;
+	}
+
+	.common { color: #c4c4c4; }
+	.uncommon { color: #65d58b; }
+	.rare { color: #5bafff; }
+	.epic { color: #c18aff; }
+	.legendary { color: #eac66c; }
+	.mythic { color: #ff65dc; }
+
+	.color-list {
+		display: grid;
+		gap: 12px;
+		margin: 20px 0;
+	}
+
+	.color-list > div {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		padding: 12px 15px;
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 12px;
+		background: rgba(255, 255, 255, 0.025);
+	}
+
+	.color-list code {
+		margin-left: auto;
+		color: #a9a9bb;
+		font-size: 0.85rem;
+	}
+
+	.color-dot {
+		width: 13px;
+		height: 13px;
+		border-radius: 50%;
+		flex-shrink: 0;
+	}
+
+	.common-bg { background: #c4c4c4; }
+	.uncommon-bg { background: #65d58b; }
+	.rare-bg { background: #5bafff; }
+	.epic-bg { background: #c18aff; }
+	.legendary-bg { background: #eac66c; }
+	.mythic-bg { background: #ff65dc; }
+
+	.page-navigation {
+		display: flex;
+		justify-content: space-between;
+		gap: 16px;
+		margin-top: 35px;
+		padding-top: 20px;
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	.page-navigation a,
+	.success-box a {
+		color: #a9dfff;
+		text-decoration: none;
+		font-weight: 600;
+	}
+
+	@media (max-width: 600px) {
+		.rarity-list {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

@@ -1,0 +1,280 @@
+
+---
+import DocsLayout from "../../../layouts/DocsLayout.astro";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<DocsLayout
+  title="Permissions"
+  description="Learn how Loot Containers configuration permissions work, including operator access, allowlists, and authorization."
+>
+  <div class="doc-section">
+    <span class="eyebrow">CONFIGURATION</span>
+    <h1>Permissions</h1>
+    <p class="lead">
+      Control who can access and manage Loot Containers configuration.
+      Permission settings are available through the in-game configuration screen.
+    </p>
+
+    <h2>Overview</h2>
+    <p>
+      Loot Containers includes several permission settings designed to control
+      access to configuration management. These include operator requirements,
+      an optional player allowlist, and an operator bypass option.
+    </p>
+
+    <p>
+      The configuration screen currently provides controls for all these
+      settings. However, only the server-side operator permission check is
+      currently enforced. The configurable allowlist and permission toggles
+      have not yet been connected to the server's authorization system.
+    </p>
+
+    <div class="info-card">
+      <strong>Current authorization behavior</strong>
+      <p>
+        Players must have Minecraft operator permission level 2 or higher
+        to receive configuration data and save configuration changes.
+        This requirement is currently enforced regardless of the permission
+        toggle settings.
+      </p>
+    </div>
+
+    <h2>Permission Settings</h2>
+    <p>
+      The Permissions section of the in-game configuration screen contains
+      three toggle options and an allowlist management section.
+    </p>
+
+    <h3>Require OP</h3>
+    <p>
+      Determines whether operator status should be required for configuration
+      access when the allowlist is disabled.
+    </p>
+
+    <ul>
+      <li><strong>ON:</strong> Intended to require operator permissions.</li>
+      <li><strong>OFF:</strong> Intended to remove that operator requirement.</li>
+    </ul>
+
+    <p>
+      <strong>Current implementation:</strong> The server always checks
+      for operator permission level 2 or higher. Changing this setting
+      does not currently change that requirement.
+    </p>
+
+    <h3>Allowlist</h3>
+    <p>
+      Enables the allowlist option, which is designed to restrict configuration
+      access to specific players.
+    </p>
+
+    <ul>
+      <li><strong>ON:</strong> Intended to enable allowlist-based access.</li>
+      <li><strong>OFF:</strong> Disables the allowlist option.</li>
+    </ul>
+
+    <p>
+      <strong>Current implementation:</strong> The configuration screen
+      supports adding and removing player UUIDs, but the server does not
+      currently check the allowlist when authorizing configuration requests.
+    </p>
+
+    <h3>OP Bypass</h3>
+    <p>
+      Configures whether operators should be able to bypass allowlist
+      restrictions.
+    </p>
+
+    <ul>
+      <li><strong>ON:</strong> Intended to allow operators to bypass the allowlist.</li>
+      <li><strong>OFF:</strong> Intended to prevent that bypass.</li>
+    </ul>
+
+    <p>
+      <strong>Current implementation:</strong> This setting is not currently
+      connected to the server's authorization checks.
+    </p>
+
+    <h2>Allowlist Management</h2>
+    <p>
+      The configuration screen provides tools for managing the list of
+      permitted player UUIDs.
+    </p>
+
+    <h3>Adding a Player</h3>
+    <ol>
+      <li>Open the Permissions section.</li>
+      <li>Enter the player's Minecraft UUID in the Player UUID field.</li>
+      <li>Select <strong>Add UUID</strong>.</li>
+    </ol>
+
+    <p>
+      UUID entries must use a valid UUID format. The input field accepts
+      up to 36 characters, and invalid UUIDs are rejected. Duplicate
+      entries are also prevented.
+    </p>
+
+    <h3>Removing a Player</h3>
+    <ol>
+      <li>Enter the UUID of the player you want to remove.</li>
+      <li>Select <strong>Remove UUID</strong>.</li>
+    </ol>
+
+    <p>
+      UUID removal uses case-insensitive matching. The screen displays
+      shortened UUID entries, showing up to five players at a time.
+      If additional players exist, the interface displays how many
+      more entries are in the list.
+    </p>
+
+    <div class="info-card">
+      <strong>Important: Allowlist enforcement is not implemented yet</strong>
+      <p>
+        Adding a UUID stores it in the configuration, but it does not
+        currently grant or deny access to the configuration editor.
+        The server still uses its operator permission level 2 check.
+      </p>
+    </div>
+
+    <h2>Default Values</h2>
+    <p>
+      The following values are initialized when LootSettings is created.
+    </p>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Setting</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Require OP</td>
+            <td><code>true</code></td>
+            <td>Operator requirement toggle.</td>
+          </tr>
+          <tr>
+            <td>Allowlist Enabled</td>
+            <td><code>false</code></td>
+            <td>Allowlist toggle.</td>
+          </tr>
+          <tr>
+            <td>OP Bypass</td>
+            <td><code>true</code></td>
+            <td>Operator bypass toggle.</td>
+          </tr>
+          <tr>
+            <td>Allowed Players</td>
+            <td>Empty</td>
+            <td>List of stored player UUIDs.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Current Server Authorization</h2>
+    <p>
+      Configuration access is checked by the server when a player requests
+      configuration synchronization or submits configuration changes.
+    </p>
+
+    <h3>Opening the Configuration Editor</h3>
+    <ol>
+      <li>
+        The client requests configuration synchronization from the server.
+      </li>
+      <li>
+        The server checks whether the player has operator permission
+        level 2 or higher.
+      </li>
+      <li>
+        If authorized, the server sends permission approval and configuration
+        data to that player.
+      </li>
+      <li>
+        The client opens the editor after receiving the configuration data
+        and confirming its local permission state.
+      </li>
+    </ol>
+
+    <h3>Saving Configuration</h3>
+    <p>
+      When a player submits configuration changes, the server performs
+      another operator permission check. Players who do not meet the
+      requirement have their save requests rejected.
+    </p>
+
+    <p>
+      Authorized configuration changes are validated before being saved.
+      If a save fails, the server attempts to restore the previous
+      configuration and reports the result to the player.
+    </p>
+
+    <div class="code-card">
+      <strong>Current authorization check</strong>
+      <pre><code>{`if (player == null || !player.hasPermissions(2)) {
+    return;
+}`}</code></pre>
+      <p>
+        This check is used for both configuration synchronization
+        and configuration saving.
+      </p>
+    </div>
+
+    <h2>Resetting Permissions</h2>
+    <p>
+      The Permissions section includes reset behavior that restores
+      the following values:
+    </p>
+
+    <ul>
+      <li>Require OP: ON</li>
+      <li>Allowlist: OFF</li>
+      <li>OP Bypass: ON</li>
+      <li>Allowed Players: Empty</li>
+    </ul>
+
+    <p>
+      Resetting these values restores the configuration settings,
+      but does not change the current server-side authorization behavior.
+    </p>
+
+    <h2>Frequently Asked Questions</h2>
+
+    <h3>Can non-operators currently open the configuration editor?</h3>
+    <p>
+      No. The server requires operator permission level 2 or higher
+      before sending configuration data.
+    </p>
+
+    <h3>Does enabling the allowlist restrict access?</h3>
+    <p>
+      Not currently. The interface supports managing UUIDs, but the
+      server does not yet use the allowlist to authorize players.
+    </p>
+
+    <h3>Does disabling Require OP remove the operator requirement?</h3>
+    <p>
+      No. The server currently enforces the operator permission level
+      2 check independently of this setting.
+    </p>
+
+    <h3>Can operators bypass the allowlist?</h3>
+    <p>
+      The OP Bypass setting is available in the configuration screen,
+      but its behavior has not yet been implemented in server-side
+      authorization.
+    </p>
+
+    <h3>Where are permission settings saved?</h3>
+    <p>
+      Permission settings are part of LootSettings and are saved through
+      the mod's general configuration manager.
+    </p>
+  </div>
+</DocsLayout>

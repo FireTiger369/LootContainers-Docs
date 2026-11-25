@@ -1,0 +1,383 @@
+
+---
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "Loot Containers documentation." } = Astro.props;
+const currentPath = Astro.url.pathname;
+const base = import.meta.env.BASE_URL;
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#090914" />
+		<meta name="description" content={description} />
+		<title>{title} | Loot Containers</title>
+	</head>
+
+	<body>
+		<div class="background-glow"></div>
+
+		<header class="navbar glass">
+			<a href={base} class="brand">
+				<img
+					class="brand-logo"
+					src={`${base}images/loot-containers-wordmark.png`}
+					alt="Loot Containers"
+				/>
+			</a>
+
+			<nav>
+				<a href={base}>Home</a>
+				<a href={`${base}docs/getting-started/`}>Documentation</a>
+				<a href="https://github.com/FireTiger369/LootContainers-Docs">GitHub ↗</a>
+			</nav>
+		</header>
+
+		<div class="docs-layout">
+			<aside class="sidebar glass">
+            	<div class="sidebar-heading">DOCUMENTATION</div>
+
+            	<div class="nav-group">
+            		<div class="group-title">GETTING STARTED</div>
+            		<a class:list={["nav-link", { active: currentPath === `${base}docs/getting-started/` }]} href={`${base}docs/getting-started/`}>Introduction</a>
+            		<a class:list={["nav-link", { active: currentPath === `${base}docs/installation/` }]} href={`${base}docs/installation/`}>Installation</a>
+            	</div>
+
+            	<div class="nav-group">
+            		<div class="group-title">FEATURES & GUIDES</div>
+            		<a class:list={["nav-link", { active: currentPath === `${base}docs/loot-tables/` }]} href={`${base}docs/loot-tables/`}>Loot Tables</a>
+            		<a class:list={["nav-link", { active: currentPath === `${base}docs/rarities/` }]} href={`${base}docs/rarities/`}>Rarity System</a>
+            		<a class:list={["nav-link", { active: currentPath === `${base}docs/odds-pity/` }]} href={`${base}docs/odds-pity/`}>Odds & Pity</a>
+            		<a class:list={["nav-link", { active: currentPath === `${base}docs/containers/` }]} href={`${base}docs/containers/`}>Container Assignments</a>
+            	</div>
+
+            	<div class="nav-group">
+            		<div class="group-title">CONFIGURATION</div>
+            		<a class:list={["nav-link", { active: currentPath === `${base}docs/permissions/` }]} href={`${base}docs/permissions/`}>Permissions</a>
+            		<a class:list={["nav-link", { active: currentPath === `${base}docs/configuration/` }]} href={`${base}docs/configuration/`}>Configuration Reference</a>
+            	</div>
+
+            	<div class="sidebar-bottom">
+            		<span class="sidebar-status"></span>
+            		<span>Loot Containers Documentation</span>
+            	</div>
+            </aside>
+
+			<main class="docs-content">
+				<div class="breadcrumb">
+					<span>Documentation</span>
+					<span class="breadcrumb-divider">/</span>
+					<strong>{title}</strong>
+				</div>
+
+				<article class="content-panel glass">
+					<header class="article-header">
+						<h1>{title}</h1>
+						{description && <p>{description}</p>}
+					</header>
+
+					<div class="article-body">
+						<slot />
+					</div>
+				</article>
+
+				<footer class="docs-footer">
+					<span>Loot Containers Documentation</span>
+					<span>© 2026 Loot Containers</span>
+				</footer>
+			</main>
+		</div>
+	</body>
+</html>
+
+<style>
+	:global(*) {
+		box-sizing: border-box;
+	}
+
+	:global(html) {
+		scroll-behavior: smooth;
+	}
+
+	:global(body) {
+		margin: 0;
+		min-height: 100vh;
+		background: #090914;
+		color: #f4f1ff;
+		font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	}
+
+	.background-glow {
+		position: fixed;
+		inset: 0;
+		z-index: -1;
+		pointer-events: none;
+		background:
+			radial-gradient(ellipse at 50% 5%, rgba(243,166,232,.15), transparent 45%),
+			radial-gradient(ellipse at 90% 45%, rgba(139,220,255,.12), transparent 35%),
+			radial-gradient(ellipse at 5% 70%, rgba(139,220,255,.10), transparent 40%);
+	}
+
+	.glass {
+		background: linear-gradient(135deg, rgba(255,255,255,.09), rgba(255,255,255,.025));
+		border: 1px solid rgba(255,255,255,.13);
+		box-shadow: 0 12px 40px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.08);
+		backdrop-filter: blur(24px) saturate(160%);
+		-webkit-backdrop-filter: blur(24px) saturate(160%);
+	}
+
+	.navbar {
+		position: sticky;
+		top: 12px;
+		z-index: 10;
+		width: min(1400px, calc(100% - 40px));
+		height: 68px;
+		margin: 12px auto 0;
+		padding: 0 22px;
+		border-radius: 20px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.brand {
+		display: flex;
+		align-items: center;
+		text-decoration: none;
+	}
+
+	.brand-logo {
+		width: 210px;
+		height: 48px;
+		object-fit: contain;
+	}
+
+	nav {
+		display: flex;
+		align-items: center;
+		gap: 28px;
+	}
+
+	nav a {
+		color: #aaa5bb;
+		text-decoration: none;
+		font-size: 13px;
+		transition: color .2s;
+	}
+
+	nav a:hover {
+		color: white;
+	}
+
+	.docs-layout {
+		width: min(1400px, calc(100% - 40px));
+		margin: 25px auto;
+		display: grid;
+		grid-template-columns: 245px minmax(0, 1fr);
+		align-items: start;
+		gap: 22px;
+	}
+
+	.sidebar {
+		position: sticky;
+		top: 95px;
+		min-height: calc(100vh - 120px);
+		padding: 24px 16px;
+		border-radius: 20px;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.sidebar-heading {
+		padding: 0 10px 22px;
+		color: #b99aff;
+		font-size: 11px;
+		font-weight: 800;
+		letter-spacing: 1.8px;
+	}
+
+	.nav-group {
+		margin-bottom: 24px;
+	}
+
+	.group-title {
+		padding: 0 10px;
+		margin-bottom: 9px;
+		color: #777187;
+		font-size: 9px;
+		font-weight: 800;
+		letter-spacing: 1.5px;
+	}
+
+	.nav-link {
+		display: block;
+		padding: 10px;
+		margin: 3px 0;
+		border: 1px solid transparent;
+		border-radius: 10px;
+		color: #aaa5bb;
+		font-size: 13px;
+		text-decoration: none;
+		transition: .2s;
+	}
+
+	.nav-link:hover {
+		background: rgba(255,255,255,.06);
+		color: white;
+	}
+
+	.nav-link.active {
+		color: #e6d9ff;
+		background: linear-gradient(100deg, rgba(139,220,255,.12), rgba(243,166,232,.12));
+		border-color: rgba(190,170,255,.18);
+	}
+
+	.sidebar-bottom {
+		display: flex;
+		align-items: center;
+		gap: 9px;
+		margin-top: auto;
+		padding: 18px 9px 0;
+		border-top: 1px solid rgba(255,255,255,.08);
+		color: #777187;
+		font-size: 10px;
+	}
+
+	.sidebar-status {
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: #8bdcff;
+		box-shadow: 0 0 10px #8bdcff;
+	}
+
+	.docs-content {
+		min-width: 0;
+	}
+
+	.breadcrumb {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		margin: 9px 0 17px;
+		color: #888298;
+		font-size: 12px;
+	}
+
+	.breadcrumb-divider {
+		color: #555064;
+	}
+
+	.breadcrumb strong {
+		color: #d6c5ff;
+		font-weight: 600;
+	}
+
+	.content-panel {
+		min-height: 650px;
+		padding: 42px;
+		border-radius: 22px;
+	}
+
+	.article-header {
+		padding-bottom: 28px;
+		margin-bottom: 30px;
+		border-bottom: 1px solid rgba(255,255,255,.09);
+	}
+
+	.article-header h1 {
+		margin: 0 0 12px;
+		font-size: clamp(30px, 4vw, 43px);
+		letter-spacing: -1.5px;
+		background: linear-gradient(to top, #8bdcff, #f3a6e8);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+	}
+
+	.article-header p {
+		margin: 0;
+		color: #a7a2b8;
+		font-size: 14px;
+		line-height: 1.7;
+	}
+
+	.article-body {
+		color: #c6c1d3;
+		font-size: 14px;
+		line-height: 1.85;
+	}
+
+	.docs-footer {
+		display: flex;
+		justify-content: space-between;
+		gap: 15px;
+		padding: 22px 5px;
+		color: #777187;
+		font-size: 11px;
+	}
+
+	@media (max-width: 850px) {
+		.docs-layout {
+			grid-template-columns: 1fr;
+		}
+
+		.sidebar {
+			position: static;
+			min-height: auto;
+		}
+
+		.sidebar-bottom {
+			margin-top: 5px;
+		}
+
+		.content-panel {
+			padding: 25px;
+		}
+	}
+
+	@media (max-width: 550px) {
+		.navbar {
+			height: auto;
+			min-height: 65px;
+			flex-wrap: wrap;
+			gap: 10px;
+			padding: 12px;
+		}
+
+		.brand-logo {
+			width: 170px;
+		}
+
+		nav {
+			gap: 15px;
+		}
+
+		nav a {
+			font-size: 11px;
+		}
+
+		.docs-layout {
+			width: calc(100% - 24px);
+		}
+
+		.docs-footer {
+			flex-direction: column;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		:global(html) {
+			scroll-behavior: auto;
+		}
+
+		*, *::before, *::after {
+			transition-duration: .01ms !important;
+		}
+	}
+</style>

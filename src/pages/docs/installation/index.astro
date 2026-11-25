@@ -1,0 +1,257 @@
+
+---
+import DocsLayout from "../../../layouts/DocsLayout.astro";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<DocsLayout
+	title="Installation"
+	description="Learn how to install Loot Containers in Minecraft."
+>
+	<div class="info-box">
+		<strong>Before you begin</strong>
+		<p>
+			Loot Containers currently targets Minecraft Java Edition 1.20.1
+			and Minecraft Forge 47.4.28.
+		</p>
+	</div>
+
+	<h2>Requirements</h2>
+
+	<div class="requirement-grid">
+		<div class="requirement-card">
+			<span class="requirement-label">GAME</span>
+			<strong>Minecraft Java Edition</strong>
+			<span>Version 1.20.1</span>
+		</div>
+
+		<div class="requirement-card">
+			<span class="requirement-label">MOD LOADER</span>
+			<strong>Minecraft Forge</strong>
+			<span>47.4.28</span>
+		</div>
+	</div>
+
+	<h2>Step 1 — Install Minecraft Forge</h2>
+	<p>
+		Download and install the Forge version required by Loot Containers.
+		Make sure you select Minecraft 1.20.1.
+	</p>
+
+	<a
+        class="external-link"
+        href="https://www.curseforge.com/download/app"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        View Curseforge App ↗
+    </a>
+
+	<h2>Step 2 — Download Loot Containers</h2>
+    <p>
+        Visit the official Loot Containers CurseForge page to download the mod.
+        Downloads will be available once the mod finishes review.
+    </p>
+
+    <a
+        class="external-link"
+        href="https://www.curseforge.com/minecraft/mc-mods/loot-containers/preview"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        Visit Loot Containers on CurseForge ↗
+    </a>
+
+    <div class="info-box">
+        <strong>Manual installation only</strong>
+        <p>
+            The following steps are for users installing Loot Containers
+            manually. If you're using the CurseForge app, you can skip
+            Steps 3–5 and install the mod through the app instead.
+        </p>
+    </div>
+
+	<h2>Step 3 — Locate your mods folder</h2>
+	<p>
+		Open your Minecraft installation directory and locate the
+		<code>mods</code> folder.
+	</p>
+
+	<div class="code-panel">
+		<span class="code-label">WINDOWS</span>
+		<code>%appdata%\.minecraft\mods</code>
+	</div>
+
+	<p>
+		If the folder doesn't exist, create a new folder named
+		<code>mods</code>.
+	</p>
+
+	<h2>Step 4 — Install the mod</h2>
+	<p>
+		Move the downloaded Loot Containers JAR file into your
+		<code>mods</code> folder.
+	</p>
+
+	<h2>Step 5 — Launch Minecraft</h2>
+	<p>
+		Open the Minecraft Launcher and select your Forge 1.20.1
+		installation. Start the game and check the Mods menu to
+		confirm Loot Containers is loaded.
+	</p>
+
+	<div class="success-box">
+		<strong>Installation complete!</strong>
+		<p>
+			You're ready to start exploring Loot Containers.
+			Continue to the Getting Started guide to learn about
+			the mod's configuration and features.
+		</p>
+		<a href={`${base}docs/getting-started/`}>Read Getting Started →</a>
+	</div>
+
+	<div class="page-navigation">
+		<a href={`${base}docs/getting-started/`}>← Introduction</a>
+		<a href={`${base}docs/loot-tables/`}>Next: Loot Tables →</a>
+	</div>
+</DocsLayout>
+
+<style>
+	h2 {
+		margin: 38px 0 12px;
+		color: #eee8ff;
+		font-size: 21px;
+	}
+
+	p {
+		color: #aaa5bb;
+		font-size: 13px;
+		line-height: 1.9;
+	}
+
+	code {
+		padding: 3px 7px;
+		border-radius: 6px;
+		background: rgba(255,255,255,.08);
+		color: #b9dfff;
+		font-size: 12px;
+	}
+
+	.info-box, .success-box {
+		padding: 19px;
+		margin: 20px 0;
+		border: 1px solid rgba(139,220,255,.2);
+		border-radius: 14px;
+		background: rgba(139,220,255,.055);
+	}
+
+	.info-box strong, .success-box strong {
+		color: #b9dfff;
+		font-size: 14px;
+	}
+
+	.info-box p, .success-box p {
+		margin-bottom: 0;
+	}
+
+	.requirement-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 13px;
+		margin: 20px 0;
+	}
+
+	.requirement-card {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		padding: 19px;
+		border: 1px solid rgba(255,255,255,.1);
+		border-radius: 14px;
+		background: rgba(255,255,255,.035);
+	}
+
+	.requirement-label, .code-label {
+		color: #c49ff3;
+		font-size: 9px;
+		font-weight: 800;
+		letter-spacing: 1.5px;
+	}
+
+	.requirement-card strong {
+		color: #eee8ff;
+		font-size: 14px;
+	}
+
+	.requirement-card > span:last-child {
+		color: #aaa5bb;
+		font-size: 12px;
+	}
+
+	.external-link {
+		display: inline-block;
+		margin: 5px 0;
+		color: #a9dfff;
+		font-size: 13px;
+		text-decoration: none;
+	}
+
+	.external-link:hover {
+		color: #f3a6e8;
+	}
+
+	.code-panel {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		padding: 17px;
+		margin: 15px 0;
+		border: 1px solid rgba(255,255,255,.1);
+		border-radius: 12px;
+		background: rgba(0,0,0,.22);
+	}
+
+	.success-box {
+		margin-top: 35px;
+		border-color: rgba(243,166,232,.25);
+		background: linear-gradient(110deg, rgba(139,220,255,.07), rgba(243,166,232,.07));
+	}
+
+	.success-box strong {
+		color: #e8b5ed;
+	}
+
+	.success-box a {
+		display: inline-block;
+		margin-top: 12px;
+		color: #b9dfff;
+		font-size: 13px;
+		text-decoration: none;
+	}
+
+	.page-navigation {
+		display: flex;
+		justify-content: space-between;
+		gap: 15px;
+		margin-top: 40px;
+		padding-top: 22px;
+		border-top: 1px solid rgba(255,255,255,.09);
+	}
+
+	.page-navigation a {
+		color: #b9dfff;
+		font-size: 12px;
+		text-decoration: none;
+	}
+
+	.page-navigation a:hover {
+		color: #f3a6e8;
+	}
+
+	@media (max-width: 550px) {
+		.requirement-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

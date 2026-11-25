@@ -1,0 +1,438 @@
+
+---
+import DocsLayout from "../../../layouts/DocsLayout.astro";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<DocsLayout
+  title="Container Assignments"
+  description="Learn how loot tables are assigned to containers and how container rewards are handled."
+>
+  <div class="doc-section">
+    <span class="eyebrow">CONFIGURATION</span>
+    <h1>Container Assignments</h1>
+    <p class="lead">
+      Container assignments determine which loot table is used when a player
+      opens a container. They connect your loot tables to the containers
+      players discover throughout your world.
+    </p>
+  </div>
+
+  <div class="doc-section">
+    <h2>Understanding assignments</h2>
+    <p>
+      An assignment connects a container to a specific loot table. This lets
+      you control which rewards are available from different containers
+      without needing to create a separate loot system for every container.
+    </p>
+
+    <div class="info-card">
+      <h3>Why use assignments?</h3>
+      <ul>
+        <li>Give different containers access to different loot tables.</li>
+        <li>Organize rewards around different areas or dimensions.</li>
+        <li>Reuse loot tables across multiple containers.</li>
+        <li>Keep reward configuration separate from container placement.</li>
+      </ul>
+    </div>
+  </div>
+
+
+<div class="doc-section">
+  <h2>Assignment configuration file</h2>
+  <p>
+    Container assignments are stored in a JSON file inside your Minecraft
+    configuration directory:
+  </p>
+
+  <div class="code-card">
+    <div class="code-heading">File location</div>
+    <pre><code>config/lootcontainers/loot_tables/container_assignments.json</code></pre>
+  </div>
+
+  <p>
+    If the file does not exist when the assignment manager loads, the mod
+    creates a default configuration automatically.
+  </p>
+
+  <h3>Default assignment</h3>
+  <p>
+    The default configuration creates an enabled assignment named
+    <strong>Overworld Containers</strong>.
+  </p>
+
+  <div class="code-card">
+    <div class="code-heading">Default assignment values</div>
+    <pre><code>{`{
+  "id": "overworld_containers",
+  "displayName": "Overworld Containers",
+  "blockId": "",
+  "blockTag": "lootcontainers:loot_containers",
+  "lootTableId": "overworld",
+  "enabled": true
+}`}</code></pre>
+  </div>
+
+  <p>
+    This assignment uses a block tag rather than an individual block ID
+    and connects matching containers to the Overworld loot table.
+  </p>
+</div>
+
+
+<div class="doc-section">
+  <h2>Assignment properties</h2>
+  <p>
+    Every container assignment contains several properties that determine
+    which blocks it applies to and which loot table those blocks use.
+  </p>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Property</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>id</code></td>
+          <td>Unique identifier for the assignment.</td>
+        </tr>
+        <tr>
+          <td><code>displayName</code></td>
+          <td>Name displayed for the assignment.</td>
+        </tr>
+        <tr>
+          <td><code>dimensionId</code></td>
+          <td>Dimension where the assignment applies. Empty means any dimension.</td>
+        </tr>
+        <tr>
+          <td><code>blockId</code></td>
+          <td>Targets one specific block.</td>
+        </tr>
+        <tr>
+          <td><code>blockTag</code></td>
+          <td>Targets blocks belonging to a block tag.</td>
+        </tr>
+        <tr>
+          <td><code>blockIds</code></td>
+          <td>Targets multiple individually specified blocks.</td>
+        </tr>
+        <tr>
+          <td><code>lootTableId</code></td>
+          <td>ID of the loot table used by this assignment.</td>
+        </tr>
+        <tr>
+          <td><code>enabled</code></td>
+          <td>Determines whether the assignment is enabled.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Choosing a block selection method</h2>
+  <p>
+    Each assignment must use exactly one of the three available block
+    selection methods. Combining them or leaving all three empty will
+    cause validation to fail.
+  </p>
+
+  <h3>1. Individual block</h3>
+  <p>
+    Use <code>blockId</code> when you want an assignment to target one
+    specific block.
+  </p>
+
+  <div class="code-card">
+    <div class="code-heading">Example</div>
+    <pre><code>{`{
+  "blockId": "minecraft:chest",
+  "blockTag": "",
+  "blockIds": []
+}`}</code></pre>
+  </div>
+
+  <h3>2. Block tag</h3>
+  <p>
+    Use <code>blockTag</code> when you want an assignment to target
+    every block belonging to a particular tag.
+  </p>
+
+  <div class="code-card">
+    <div class="code-heading">Example</div>
+    <pre><code>{`{
+  "blockId": "",
+  "blockTag": "lootcontainers:loot_containers",
+  "blockIds": []
+}`}</code></pre>
+  </div>
+
+  <h3>3. Multiple block IDs</h3>
+  <p>
+    Use <code>blockIds</code> when you want one assignment to target
+    several individually specified blocks.
+  </p>
+
+  <div class="code-card">
+    <div class="code-heading">Example</div>
+    <pre><code>{`{
+  "blockId": "",
+  "blockTag": "",
+  "blockIds": [
+    "minecraft:chest",
+    "minecraft:trapped_chest",
+    "minecraft:barrel"
+  ]
+}`}</code></pre>
+  </div>
+
+
+<div class="doc-section">
+  <h2>Dimension matching</h2>
+  <p>
+    Assignments can optionally target a specific Minecraft dimension.
+    This lets you use different loot tables for containers in the
+    Overworld, Nether, End, or custom dimensions.
+  </p>
+
+  <p>
+    The <code>dimensionId</code> property accepts a Minecraft resource
+    location, such as <code>minecraft:the_nether</code>.
+  </p>
+
+  <div class="code-card">
+    <div class="code-heading">Nether-only assignment</div>
+    <pre><code>{`{
+  "dimensionId": "minecraft:the_nether"
+}`}</code></pre>
+  </div>
+
+  <div class="info-card">
+    <h3>All dimensions</h3>
+    <p>
+      Leave <code>dimensionId</code> empty to allow the assignment
+      to match in any dimension.
+    </p>
+  </div>
+</div>
+
+  <h2>Validation rules</h2>
+  <p>
+    The assignment validator checks configurations before they can be
+    saved. Invalid assignments are rejected.
+  </p>
+
+  <ul>
+    <li>Assignment IDs must contain only lowercase letters, numbers, underscores, and hyphens.</li>
+    <li>Assignment IDs must be unique.</li>
+    <li>Dimension IDs must be valid resource locations when provided.</li>
+    <li>Block IDs and block tags must be valid resource locations.</li>
+    <li>Block ID lists cannot contain invalid or duplicate entries.</li>
+    <li>Exactly one block selection method must be configured.</li>
+    <li>The referenced loot table must exist in the loot table registry.</li>
+  </ul>
+
+  <div class="info-card">
+    <h3>Important</h3>
+    <p>
+      A valid assignment is not automatically active just because it exists
+      in the JSON file. Its <code>enabled</code> property must also be true.
+    </p>
+  </div>
+</div>
+
+
+<div class="doc-section">
+  <h2>Assignment priority</h2>
+  <p>
+    Container assignments are evaluated in the order they appear in
+    <code>container_assignments.json</code>. When multiple assignments
+    could match the same block, the first matching assignment takes priority.
+  </p>
+
+  <div class="info-card">
+    <h3>First matching assignment wins</h3>
+    <p>
+      Once an enabled assignment matches the block and dimension,
+      the registry immediately returns its assigned loot table.
+      Assignments below it are not evaluated.
+    </p>
+  </div>
+
+  <h3>Example</h3>
+  <p>
+    Imagine you have two assignments targeting the same chest:
+  </p>
+
+  <div class="code-card">
+    <div class="code-heading">container_assignments.json</div>
+    <pre><code>{`{
+  "assignments": [
+    {
+      "id": "special_chests",
+      "displayName": "Special Chests",
+      "blockId": "minecraft:chest",
+      "blockTag": "",
+      "blockIds": [],
+      "lootTableId": "rare_rewards",
+      "enabled": true,
+      "dimensionId": ""
+    },
+    {
+      "id": "general_chests",
+      "displayName": "General Chests",
+      "blockId": "minecraft:chest",
+      "blockTag": "",
+      "blockIds": [],
+      "lootTableId": "overworld",
+      "enabled": true,
+      "dimensionId": ""
+    }
+  ]
+}`}</code></pre>
+  </div>
+
+  <p>
+    In this example, a chest matches both assignments, but
+    <code>special_chests</code> comes first. Therefore, it receives
+    the <code>rare_rewards</code> loot table.
+  </p>
+
+  <h3>Changing assignment priority</h3>
+  <p>
+    You can change priority by moving assignments to different positions
+    in the assignment list. The assignment manager supports moving an
+    assignment to a new position and saving the updated configuration.
+  </p>
+
+  <h2>When no assignment matches</h2>
+  <p>
+    If the block does not match any enabled assignment, or if its dimension
+    does not match the configured dimension, the registry returns no loot
+    table for that block.
+  </p>
+
+  <p>
+    The <code>hasAssignment</code> method can also be used to check whether
+    a block has an enabled assignment that resolves to a loot table.
+  </p>
+</div>
+
+
+<div class="doc-section">
+  <h2>Container interaction and rewards</h2>
+  <p>
+    When a player right-clicks an assigned container, the server handles
+    the interaction and determines whether the player has already received
+    a reward result from that specific container.
+  </p>
+
+  <h3>One reward attempt per player</h3>
+  <p>
+    Each container has a unique identity, and reward results are tracked
+    separately for every player. Once a player has attempted to receive
+    a reward from a container, that result is saved.
+  </p>
+
+  <div class="info-card">
+    <h3>Failed attempts count too</h3>
+    <p>
+      A failed reward roll is recorded just like a successful one.
+      Players cannot repeatedly interact with the same container to
+      reroll until they receive a reward.
+    </p>
+  </div>
+
+
+<h3>What happens when no reward is found?</h3>
+<p>
+  If the reward roll fails, the unsuccessful result is saved.
+  The player cannot make another reward attempt from that same
+  container.
+</p>
+
+<p>
+  Unlike successful rewards, failed reward attempts do not cancel
+  the original block interaction. Normal block interaction behavior
+  can therefore continue.
+</p>
+
+
+  <h2>Container identity</h2>
+  <p>
+    Containers use unique UUIDs to distinguish individual placed containers.
+    This allows the mod to maintain separate reward records even when
+    multiple containers use the same block type and loot table.
+  </p>
+
+  <h3>Moving containers</h3>
+  <p>
+    The mod also supports restoring container identity when an assigned
+    container is placed from an item that carries its saved identity.
+    This helps preserve its existing tracking information when it is moved.
+  </p>
+
+  <h2>Important behavior</h2>
+  <ul>
+    <li>Only server-side main-hand right-click interactions are processed by this handler.</li>
+    <li>Unassigned blocks are not processed by this reward handler.</li>
+    <li>Each player has their own reward result for each container.</li>
+    <li>Both successful and unsuccessful results are saved.</li>
+    <li>Container records persist through Minecraft's SavedData system.</li>
+  </ul>
+</div>
+
+<div class="doc-section">
+  <h2>Per-player container tracking</h2>
+  <p>
+    Loot Containers tracks container interactions separately for each player.
+    This allows the mod to remember which players have interacted with a
+    particular container.
+  </p>
+
+  <h3>How tracking works</h3>
+  <ul>
+    <li>
+      <strong>Container ID:</strong> Each tracked container has a unique UUID.
+    </li>
+    <li>
+      <strong>Player ID:</strong> Each player is identified by their Minecraft UUID.
+    </li>
+    <li>
+      <strong>Opening records:</strong> The mod records whether a player has
+      opened a particular container.
+    </li>
+    <li>
+      <strong>Reward results:</strong> The mod separately records whether a
+      player received a reward from that container.
+    </li>
+  </ul>
+
+  <div class="info-card">
+    <h3>Why track players individually?</h3>
+    <p>
+      A container can keep separate interaction records for different players.
+      This means one player's interaction does not automatically count as
+      another player's interaction.
+    </p>
+  </div>
+
+  <h2>Saved container data</h2>
+  <p>
+    Container tracking is stored using Minecraft's SavedData system.
+    The data storage identifier is
+    <code>lootcontainers_data</code>.
+  </p>
+
+  <p>
+    Both opening records and reward results are written to world data and
+    restored when that data is loaded again. This prevents the tracking
+    information from simply disappearing when the world is restarted.
+  </p>
+</div>
+
+
+</DocsLayout>

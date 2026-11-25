@@ -1,0 +1,214 @@
+
+---
+import DocsLayout from "../../../layouts/DocsLayout.astro";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<DocsLayout
+	title="Loot Tables"
+	description="Learn how Loot Containers determines the rewards players can receive."
+>
+	<div class="info-box">
+		<strong>What are loot tables?</strong>
+		<p>
+			Loot tables define which items can be rewarded when a player opens
+			a Loot Container. You can customize the available rewards, their
+			rarities, and how many items can be awarded.
+		</p>
+	</div>
+
+	<h2>How loot tables work</h2>
+
+	<p>
+		When a player opens a container, Loot Containers uses its assigned
+		loot table to determine what rewards are available and which reward
+		the player receives.
+	</p>
+
+	<div class="feature-grid">
+		<div class="feature-card">
+			<h3>Item Pools</h3>
+			<p>Choose which items can appear as rewards in your loot tables.</p>
+		</div>
+
+		<div class="feature-card">
+			<h3>Rarity Weights</h3>
+			<p>Control how likely different rarity tiers are to be selected.</p>
+		</div>
+
+		<div class="feature-card">
+			<h3>Item Count</h3>
+			<p>Configure the minimum and maximum number of items awarded.</p>
+		</div>
+
+		<div class="feature-card">
+			<h3>Reward Chances</h3>
+			<p>Configure the chances associated with receiving rewards.</p>
+		</div>
+	</div>
+
+	<h2>Rarity tiers</h2>
+
+	<p>
+		Loot Containers includes six rarity tiers. Each tier can have its own
+		weight, allowing you to customize how frequently it appears.
+	</p>
+
+	<div class="rarity-list">
+		<div class="rarity common">Common</div>
+		<div class="rarity uncommon">Uncommon</div>
+		<div class="rarity rare">Rare</div>
+		<div class="rarity epic">Epic</div>
+		<div class="rarity legendary">Legendary</div>
+		<div class="rarity mythic">Mythic</div>
+	</div>
+
+	<h2>Item count ranges</h2>
+
+	<p>
+		You can configure a minimum and maximum item count for rewards.
+		This lets you control how many items a player can receive from
+		a container opening.
+	</p>
+
+	<h2>Reward chances</h2>
+
+	<p>
+		Reward chances let you control the probability of receiving rewards.
+		These settings work alongside your loot table configuration to
+		shape the overall reward experience.
+	</p>
+
+	<h2>Connecting loot tables to containers</h2>
+
+	<p>
+		Loot tables can be assigned to containers so different containers
+		can provide different rewards. You can also configure container
+		assignments to account for dimensions.
+	</p>
+
+	<div class="info-box">
+		<strong>Keep in mind</strong>
+		<p>
+			Each player can receive a reward only once from an individual
+			container. This helps prevent players from repeatedly claiming
+			rewards from the same container.
+		</p>
+	</div>
+
+	<div class="success-box">
+		<strong>What's next?</strong>
+		<p>
+			Learn how the rarity system works and how each tier affects
+			your loot table rewards.
+		</p>
+		<a href={`${base}docs/rarities/`}>Explore the Rarity System →</a>
+	</div>
+
+	<div class="page-navigation">
+		<a href={`${base}docs/installation/`}>← Installation</a>
+		<a href={`${base}docs/rarities/`}>Next: Rarity System →</a>
+	</div>
+</DocsLayout>
+
+<style>
+	.info-box,
+	.success-box {
+		padding: 18px 20px;
+		margin: 22px 0;
+		border: 1px solid rgba(139, 220, 255, 0.2);
+		border-radius: 16px;
+		background: rgba(139, 220, 255, 0.07);
+	}
+
+	.info-box strong,
+	.success-box strong {
+		display: block;
+		margin-bottom: 7px;
+	}
+
+	.info-box p,
+	.success-box p {
+		margin: 0;
+	}
+
+	.success-box {
+		border-color: rgba(243, 166, 232, 0.25);
+		background: rgba(243, 166, 232, 0.07);
+	}
+
+	.feature-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 14px;
+		margin: 22px 0;
+	}
+
+	.feature-card {
+		padding: 18px;
+		border: 1px solid rgba(255, 255, 255, 0.09);
+		border-radius: 16px;
+		background: rgba(255, 255, 255, 0.035);
+	}
+
+	.feature-card h3 {
+		margin: 0 0 8px;
+		font-size: 1rem;
+	}
+
+	.feature-card p {
+		margin: 0;
+		color: #a9a9bb;
+		font-size: 0.92rem;
+	}
+
+	.rarity-list {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 10px;
+		margin: 20px 0;
+	}
+
+	.rarity {
+		padding: 13px 10px;
+		text-align: center;
+		font-weight: 700;
+		border: 1px solid currentColor;
+		border-radius: 12px;
+		background: rgba(255, 255, 255, 0.035);
+	}
+
+	.common { color: #c4c4c4; }
+	.uncommon { color: #65d58b; }
+	.rare { color: #5bafff; }
+	.epic { color: #c18aff; }
+	.legendary { color: #eac66c; }
+	.mythic { color: #ff65dc; }
+
+	.page-navigation {
+		display: flex;
+		justify-content: space-between;
+		gap: 16px;
+		margin-top: 35px;
+		padding-top: 20px;
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	.page-navigation a,
+	.success-box a {
+		color: #a9dfff;
+		text-decoration: none;
+		font-weight: 600;
+	}
+
+	@media (max-width: 600px) {
+		.feature-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.rarity-list {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+</style>
